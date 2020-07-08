@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/song_id"
+            android:theme="@style/BarTextTheme"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="編號" />
+
+        <TextView
+            android:id="@+id/song_name"
+            android:theme="@style/BarTextTheme"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="曲名" />
+
+        <TextView
+            android:id="@+id/song_singer"
+            android:theme="@style/BarTextTheme"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="演唱者" />
+
+        <TextView
+            android:id="@+id/song_language"
+            android:theme="@style/BarTextTheme"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="語言" />
+
+        <TextView
+            android:id="@+id/song_char_count"
+            android:theme="@style/BarTextTheme"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="字部" />
+
+        <TextView
+            android:id="@+id/song_class"
+            android:theme="@style/BarTextTheme"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="歌廳" />
+
+        <TextView
+            android:id="@+id/add_favorite"
+            android:theme="@style/BarTextTheme"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="最愛" />
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/song_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>
