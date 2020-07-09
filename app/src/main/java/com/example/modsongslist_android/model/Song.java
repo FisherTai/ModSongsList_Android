@@ -1,13 +1,30 @@
 package com.example.modsongslist_android.model;
 
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+
+@Entity (tableName = "SongsList")
 public class Song {
 
+    @PrimaryKey @NonNull
+    @ColumnInfo (name = "id")
     private String number;
+    @NonNull
     private String name;
+    @NonNull
     private String language;
+    @NonNull
     private String singer;
+    @NonNull
     private String char_count;
+    @NonNull
     private String song_class;
+    @NonNull
+    private boolean isFavorite = false;
 
     public Song(String number, String name, String language, String singer, String char_count, String song_class) {
         this.number = number;
@@ -64,6 +81,14 @@ public class Song {
 
     public void setSong_class(String song_class) {
         this.song_class = song_class;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }
 

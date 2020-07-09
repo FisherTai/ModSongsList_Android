@@ -10,7 +10,6 @@
 
     <style name="BarTextTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:gravity">center</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
 

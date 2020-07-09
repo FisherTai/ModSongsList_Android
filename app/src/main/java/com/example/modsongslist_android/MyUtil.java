@@ -54,21 +54,19 @@ public class MyUtil {
     /**
      * 簡化的長toast
      *
-     * @param context
      * @param comment
      */
-    public void toastLong(Context context, String comment) {
-        Toast.makeText(context, comment, Toast.LENGTH_LONG).show();
+    public void toastLong(String comment) {
+        Toast.makeText(AppMain.getApp(), comment, Toast.LENGTH_LONG).show();
     }
 
     /**
      * 簡化的短toast
      *
-     * @param context
      * @param comment
      */
-    public void toastShort(Context context, String comment) {
-        Toast.makeText(context, comment, Toast.LENGTH_SHORT).show();
+    public void toastShort(String comment) {
+        Toast.makeText(AppMain.getApp(), comment, Toast.LENGTH_SHORT).show();
     }
 
     /**

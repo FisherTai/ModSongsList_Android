@@ -18,7 +18,7 @@
         android:theme="@style/TextTheme"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:text="12樓" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:theme="@style/TextTheme"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:text="0" />
 
     <TextView
@@ -58,6 +58,6 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:srcCompat="@drawable/ic_add_black_24dp" />
+        android:padding="8dp" />
 
 </LinearLayout>
