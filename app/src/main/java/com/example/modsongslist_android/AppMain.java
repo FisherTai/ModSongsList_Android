@@ -19,11 +19,5 @@ public class AppMain extends Application {
         return app;
     }
 
-    //存放歌單的Json字串
-    public  String songListStr;
-    //存放轉換好的清單
-    public  ArrayList<Song> songList;
-    //
-    public boolean  getSongListComplete = false;
 
 }

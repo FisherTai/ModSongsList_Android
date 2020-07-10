@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/allSong" android:title="全部" android:icon="@drawable/ic_queue_music_black_24dp"/>
-    <item android:id="@+id/recent" android:title="最近新增" android:icon="@drawable/ic_add_black_24dp"/>
-    <item android:id="@+id/favorite" android:title="最愛" android:icon="@drawable/ic_favorite_black_24dp"/>
+    <item android:id="@+id/item_allSong" android:title="全部" android:icon="@drawable/ic_queue_music_black_24dp"/>
+<!--    <item android:id="@+id/item_recent" android:title="近期更新" android:icon="@drawable/ic_add_black_24dp"/>-->
+    <item android:id="@+id/item_favorite" android:title="最愛" android:icon="@drawable/ic_favorite_black_24dp"/>
 
 </menu>

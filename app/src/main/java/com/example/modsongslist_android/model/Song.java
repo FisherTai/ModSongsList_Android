@@ -4,10 +4,11 @@ package com.example.modsongslist_android.model;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 
-@Entity (tableName = "SongsList")
+@Entity (tableName = "SelfSong")
 public class Song {
 
     @PrimaryKey @NonNull

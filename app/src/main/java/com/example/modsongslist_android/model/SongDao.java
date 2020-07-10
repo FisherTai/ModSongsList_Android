@@ -21,10 +21,10 @@ public interface SongDao {
         @Delete
         void deleate(Song song);
 
-        @Query("SELECT * FROM SongsList WHERE id LIKE :number")
+        @Query("SELECT * FROM SelfSong WHERE id LIKE :number")
         Song findByID(int number);
 
-        @Query("SELECT * FROM SongsList")
+        @Query("SELECT * FROM SelfSong")
         List<Song> getAll();
 
 }
