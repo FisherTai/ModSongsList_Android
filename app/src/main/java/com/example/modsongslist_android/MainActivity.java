@@ -12,7 +12,6 @@ import com.example.modsongslist_android.songs_list.AllFragment;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.addLogAdapter(new AndroidLogAdapter());
         setContentView(R.layout.activity_main);
 
         //Todo 獲取歌單跟自選要改成在啟動頁

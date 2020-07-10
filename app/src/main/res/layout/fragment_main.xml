@@ -62,7 +62,7 @@
             android:theme="@style/BarTextTheme"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:text="最愛" />
     </LinearLayout>
 
@@ -70,7 +70,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/song_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"/>
 </LinearLayout>

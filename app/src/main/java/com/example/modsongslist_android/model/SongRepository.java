@@ -105,6 +105,10 @@ public class SongRepository {
             Type listType = new TypeToken<List<Song>>() {
             }.getType();
             songList = gson.fromJson(SongRepository.getINSTANCE().songListStr, listType);
+
+            for(Song s :songList){
+//TODO 拿到自選清單後要更新全館清單的狀態
+            }
         }
 
         Log.d(TAG, "getSongListComplete = true");

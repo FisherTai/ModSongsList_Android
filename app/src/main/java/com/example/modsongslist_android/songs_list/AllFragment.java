@@ -15,13 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.modsongslist_android.MyUtil;
 import com.example.modsongslist_android.R;
 import com.example.modsongslist_android.model.RepositoryCallBack;
 import com.example.modsongslist_android.model.Song;
 import com.example.modsongslist_android.model.SongRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +30,7 @@ public class AllFragment extends Fragment {
     private SearchView sv;
     private SongAdapter songAdapter;
     private BottomNavigationView bnv;
+    private int current = R.id.item_allSong;
 
 
     @Nullable
@@ -62,20 +61,20 @@ public class AllFragment extends Fragment {
         setSerchView(SongRepository.getINSTANCE().getSongList());
     }
 
+    //設置搜索條，搜尋的清單要依頁面不同變動
     private void setSerchView(List<Song> list) {
-
-        sv.setQueryHint("输入歌名");
-        //設置搜索的事件
+        sv.setQueryHint("输入歌名或歌手名稱");
+        sv.setSubmitButtonEnabled(true);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 ArrayList<Song> searchList = new ArrayList<>();
                 for (Song song : list) {
-                    if (song.getName().contains(query)) {
+                    if (song.getName().contains(query) || song.getSinger().contains(query)) {
                         searchList.add(song);
                     }
                 }
-                songAdapter.setSongList(searchList);
+                setAdapterList(searchList);
                 return false;
             }
 
@@ -92,9 +91,9 @@ public class AllFragment extends Fragment {
 
             rv.removeAllViews();
 
-            switch(item.getItemId()){
+            switch(current = item.getItemId()){
                 case R.id.item_allSong:
-                    songAdapter.setSongList(SongRepository.getINSTANCE().getSongList());
+                    setAdapterList(SongRepository.getINSTANCE().getSongList());
                     setSerchView();
                     break;
 
@@ -102,7 +101,7 @@ public class AllFragment extends Fragment {
                     SongRepository.getINSTANCE().getSelfListFromDB(new RepositoryCallBack<List<Song>>() {
                         @Override
                         public void onSuccess(List<Song> result) {
-                            getActivity().runOnUiThread(()->songAdapter.setSongList(result));
+                            getActivity().runOnUiThread(()->setAdapterList(result));
                             setSerchView(result);
                         }
 
@@ -115,6 +114,10 @@ public class AllFragment extends Fragment {
             }
             return true;
         });
+    }
+
+    private void setAdapterList(List<Song> list){
+        songAdapter.setSongList(list,current);
     }
 
 }

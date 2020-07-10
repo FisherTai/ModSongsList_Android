@@ -9,23 +9,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.modsongslist_android.MyUtil;
 import com.example.modsongslist_android.R;
 import com.example.modsongslist_android.model.Song;
 import com.example.modsongslist_android.model.SongRepository;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder> {
     private List<Song> injectionSongList;
+    private final int allSongPage = R.id.item_allSong;
+    private final int favoritePage = R.id.item_favorite;
+    private int current = 0;
 
     public SongAdapter(List<Song> songList) {
         this.injectionSongList = songList;
     }
 
-    public void setSongList(List<Song> songList) {
+    public void setSongList(List<Song> songList, int current) {
         this.injectionSongList = songList;
+        this.current = current;
         notifyDataSetChanged();
     }
 
@@ -49,18 +51,32 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
             song.setFavorite(!song.isFavorite());
             if (song.isFavorite()) {
                 SongRepository.getINSTANCE().setSelfSongInDB(song);
-                MyUtil.getInstance().toastShort("加入最愛");
             } else {
                 SongRepository.getINSTANCE().deleteSongOutDb(song);
-                MyUtil.getInstance().toastShort("移除最愛");
+                //因為全館歌單不是從DB取出的，必須另外修改物件狀態
+                for (Song s : SongRepository.getINSTANCE().getSongList()) {
+                    if (s.getNumber().equals(song.getNumber())) {
+                        s.setFavorite(false);
+                        break;
+                    }
+                }
             }
             notifyItemChanged(position);
+
+            if (current == favoritePage) {
+                //這裡傳入List的remove直接將物件傳入，省的處理position的邏輯
+                injectionSongList.remove(song);
+                notifyItemRemoved(position);
+            }
+
         });
 
-        if (song.isFavorite()) {
-            holder.addSong.setImageResource(R.drawable.ic_favorite_black_24dp);
-        } else {
+        if (!song.isFavorite()) {
             holder.addSong.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+        } else if (current == favoritePage) {
+            holder.addSong.setImageResource(R.drawable.ic_close_black_24dp);
+        } else {
+            holder.addSong.setImageResource(R.drawable.ic_favorite_black_24dp);
         }
     }
 
@@ -85,4 +101,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
             addSong = itemView.findViewById(R.id.add_song);
         }
     }
+
+
 }
