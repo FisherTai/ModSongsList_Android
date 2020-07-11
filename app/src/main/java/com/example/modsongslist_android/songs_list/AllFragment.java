@@ -23,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AllFragment extends Fragment {
     private static final String TAG = "AllFragment";
@@ -46,7 +47,7 @@ public class AllFragment extends Fragment {
     }
 
     private void findView(View view) {
-        bnv = getActivity().findViewById(R.id.bnv_bottom);
+        bnv = Objects.requireNonNull(getActivity()).findViewById(R.id.bnv_bottom);
         rv = view.findViewById(R.id.song_listview);
         sv = getActivity().findViewById(R.id.search_bar);
     }
@@ -101,7 +102,7 @@ public class AllFragment extends Fragment {
                     SongRepository.getINSTANCE().getSelfListFromDB(new RepositoryCallBack<List<Song>>() {
                         @Override
                         public void onSuccess(List<Song> result) {
-                            getActivity().runOnUiThread(()->setAdapterList(result));
+                            Objects.requireNonNull(getActivity()).runOnUiThread(()->setAdapterList(result));
                             setSerchView(result);
                         }
 

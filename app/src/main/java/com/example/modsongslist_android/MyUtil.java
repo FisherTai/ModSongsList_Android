@@ -18,7 +18,6 @@ import java.io.InputStreamReader;
 public class MyUtil {
     private static final String TAG = "MyUtil";
     private static MyUtil instance;
-    private FragmentTransaction fragmentTransaction = null;
 
     private MyUtil() {
     }
@@ -34,9 +33,7 @@ public class MyUtil {
     public void addFragmentToActivity(@NonNull FragmentManager fragmentManager,
                                       @NonNull Fragment fragment,
                                       int frameId) {
-        if (fragmentTransaction == null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-        }
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(frameId, fragment).commit();
     }
 
@@ -44,9 +41,7 @@ public class MyUtil {
     public void replaceFragmentToActivity(@NonNull FragmentManager fragmentManager,
                                           @NonNull Fragment fragment,
                                           int frameId) {
-        if (fragmentTransaction == null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-        }
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(frameId, fragment).commit();
     }
 
@@ -84,7 +79,7 @@ public class MyUtil {
      *
      * @return string
      */
-    public String readAssetsJson(Context context,String fileName) {
+    public String readAssetsJson(Context context, String fileName) {
         AssetManager assetManager = context.getAssets();
         Log.d(TAG, "readAssetsJson: ");
         InputStream is = null;

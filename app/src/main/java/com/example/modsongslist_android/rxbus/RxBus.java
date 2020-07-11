@@ -1,6 +1,6 @@
 package com.example.modsongslist_android.rxbus;
 
-import com.gwtsz.android.rxbus.event.RxBusBaseMessage;
+import com.example.modsongslist_android.rxbus.event.RxBusBaseMessage;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

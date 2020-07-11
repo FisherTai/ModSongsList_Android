@@ -1,64 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@color/ed2">
 
-    <TextView
-        android:id="@+id/song_id"
-        android:theme="@style/TextTheme"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:textSize="15sp"
-        android:text="191304" />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/song_name"
-        android:theme="@style/TextTheme"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1.5"
-        android:text="12樓" />
+        <TextView
+            android:id="@+id/song_id"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"
+            android:textSize="20sp"
+            android:textColor="@color/ed1"
+            android:text="191304"
+            android:theme="@style/TextTheme"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/song_singer"
-        android:theme="@style/TextTheme"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="佚名" />
+        <TextView
+            android:id="@+id/song_name"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:text="12樓"
+            android:theme="@style/TextTheme"
+            app:layout_constraintStart_toEndOf="@+id/song_id" />
 
-    <TextView
-        android:id="@+id/song_language"
-        android:theme="@style/TextTheme"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="國語" />
+        <TextView
+            android:id="@+id/song_singer"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"
+            android:textSize="20sp"
+            android:text="佚名"
+            android:theme="@style/TextTheme"
+            app:layout_constraintStart_toEndOf="@+id/song_name" />
 
-    <TextView
-        android:id="@+id/song_char_count"
-        android:theme="@style/TextTheme"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:text="0" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/song_class"
-        android:theme="@style/TextTheme"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="麗厚廳" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-    <ImageView
-        android:id="@+id/add_song"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.8"
-        android:padding="8dp" />
+        <TextView
+            android:id="@+id/song_language"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="0.5"
+            android:text="國語"
+            android:theme="@style/TextTheme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/song_char_count"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="0.5"
+            android:text="0"
+            android:theme="@style/TextTheme"
+            app:layout_constraintStart_toEndOf="@+id/song_language"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <TextView
+            android:id="@+id/song_class"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:text="麗厚廳"
+            android:theme="@style/TextTheme"
+            app:layout_constraintStart_toEndOf="@+id/song_char_count"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <ImageView
+            android:id="@+id/add_song"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="0.5"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:layout_editor_absoluteX="150dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

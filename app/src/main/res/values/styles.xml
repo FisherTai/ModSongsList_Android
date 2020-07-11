@@ -15,6 +15,12 @@
 
     <style name="TextTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/ed5</item>
     </style>
+
+    <style name="TopAndBottom">
+        <item name="android:background">@color/ed3</item>
+    </style>
+
 
 </resources>

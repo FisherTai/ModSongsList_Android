@@ -1,5 +1,6 @@
 package com.example.modsongslist_android.songs_list;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.modsongslist_android.model.SongRepository;
 import java.util.List;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder> {
+    private static final String TAG = "SongAdapter";
     private List<Song> injectionSongList;
     private final int allSongPage = R.id.item_allSong;
     private final int favoritePage = R.id.item_favorite;
@@ -51,8 +53,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
             song.setFavorite(!song.isFavorite());
             if (song.isFavorite()) {
                 SongRepository.getINSTANCE().setSelfSongInDB(song);
+                Log.d(TAG, "save song:" + song.getNumber());
             } else {
                 SongRepository.getINSTANCE().deleteSongOutDb(song);
+                Log.d(TAG, "remove song:" + song.getNumber());
                 //因為全館歌單不是從DB取出的，必須另外修改物件狀態
                 for (Song s : SongRepository.getINSTANCE().getSongList()) {
                     if (s.getNumber().equals(song.getNumber())) {
@@ -66,7 +70,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
             if (current == favoritePage) {
                 //這裡傳入List的remove直接將物件傳入，省的處理position的邏輯
                 injectionSongList.remove(song);
+                Log.d(TAG, "remove self list position:" + position);
                 notifyItemRemoved(position);
+                //因為position變更了，需要從position位置開始刷新範圍資料。
+                notifyItemRangeChanged(position,injectionSongList.size()-position);
             }
 
         });
