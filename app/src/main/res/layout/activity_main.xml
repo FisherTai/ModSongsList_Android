@@ -8,12 +8,22 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <SearchView
-        android:id="@+id/search_bar"
+    <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.08"
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:menu="@menu/tootbar_menu"
         android:theme="@style/TopAndBottom"/>
+
+    <!--    <SearchView-->
+    <!--        android:id="@+id/search_bar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_weight="0.08"-->
+    <!--        android:theme="@style/TopAndBottom"/>-->
 
     <FrameLayout
         android:id="@+id/fragment_conten"

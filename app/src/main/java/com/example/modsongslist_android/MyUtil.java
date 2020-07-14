@@ -94,6 +94,7 @@ public class MyUtil {
             }
             return stringBuilder.toString();
         } catch (IOException e) {
+            Log.e(TAG, "readAssetsJson: ",e);
             e.printStackTrace();
             return null;
         } finally {

@@ -27,5 +27,8 @@ public interface SongDao {
         @Query("SELECT * FROM SelfSong")
         List<Song> getAll();
 
+        @Query("SELECT * FROM SelfSong WHERE language LIKE :language")
+        List<Song> getListByLanguage(String language);
+
 }
 

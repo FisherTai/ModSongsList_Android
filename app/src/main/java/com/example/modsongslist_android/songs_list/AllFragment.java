@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.modsongslist_android.MyUtil;
 import com.example.modsongslist_android.R;
 import com.example.modsongslist_android.model.RepositoryCallBack;
 import com.example.modsongslist_android.model.Song;
 import com.example.modsongslist_android.model.SongRepository;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -27,11 +29,21 @@ import java.util.Objects;
 
 public class AllFragment extends Fragment {
     private static final String TAG = "AllFragment";
+
     private RecyclerView rv;
     private SearchView sv;
-    private SongAdapter songAdapter;
+    private MaterialToolbar mToolbar;
     private BottomNavigationView bnv;
+
+    private SongAdapter songAdapter;
     private int current = R.id.item_allSong;
+
+    //存放當下顯示的歌單
+    private ArrayList<Song> CurrentList;
+    //存放自選歌單
+    private ArrayList<Song> SelfList;
+    //取得所有的歌單
+    private final ArrayList<Song> AllList = SongRepository.getINSTANCE().getSongList();
 
 
     @Nullable
@@ -40,6 +52,7 @@ public class AllFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         findView(view);
         setRecyclerView();
+        setToolBar();
         setSerchView();
         setBottomBar();
 
@@ -50,16 +63,36 @@ public class AllFragment extends Fragment {
         bnv = Objects.requireNonNull(getActivity()).findViewById(R.id.bnv_bottom);
         rv = view.findViewById(R.id.song_listview);
         sv = getActivity().findViewById(R.id.search_bar);
+        mToolbar = getActivity().findViewById(R.id.toolbar);
     }
 
     private void setRecyclerView() {
-        songAdapter = new SongAdapter(SongRepository.getINSTANCE().getSongList());
+        songAdapter = new SongAdapter(AllList);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(songAdapter);
     }
 
+    private void setToolBar() {
+        setSerchView();
+        mToolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.tb_menu_language1:
+                    setAdapterList(SongRepository.getINSTANCE().getListByLanguage("台語", getFilterList()));
+                    MyUtil.getInstance().toastShort("篩選:台語歌曲");
+
+                    break;
+                case R.id.tb_menu_language2:
+                    setAdapterList(SongRepository.getINSTANCE().getListByLanguage("國語", getFilterList()));
+                    MyUtil.getInstance().toastShort("篩選:國語歌曲");
+                    break;
+            }
+            return true;
+        });
+    }
+
+
     private void setSerchView() {
-        setSerchView(SongRepository.getINSTANCE().getSongList());
+        setSerchView(AllList);
     }
 
     //設置搜索條，搜尋的清單要依頁面不同變動
@@ -86,29 +119,29 @@ public class AllFragment extends Fragment {
         });
     }
 
+
     private void setBottomBar() {
         bnv.setSelectedItemId(R.id.item_allSong);
         bnv.setOnNavigationItemSelectedListener(item -> {
 
             rv.removeAllViews();
 
-            switch(current = item.getItemId()){
+            switch (current = item.getItemId()) {
                 case R.id.item_allSong:
-                    setAdapterList(SongRepository.getINSTANCE().getSongList());
-                    setSerchView();
+                    setAdapterList(AllList);
                     break;
 
                 case R.id.item_favorite:
                     SongRepository.getINSTANCE().getSelfListFromDB(new RepositoryCallBack<List<Song>>() {
                         @Override
                         public void onSuccess(List<Song> result) {
-                            Objects.requireNonNull(getActivity()).runOnUiThread(()->setAdapterList(result));
-                            setSerchView(result);
+                            SelfList = (ArrayList<Song>) result;
+                            Objects.requireNonNull(getActivity()).runOnUiThread(() -> setAdapterList(SelfList));
                         }
 
                         @Override
                         public void onFailure(Exception e) {
-                            Log.d(TAG, "onFailure: "+e.toString());
+                            Log.d(TAG, "onFailure: " + e.toString());
                         }
                     });
                     break;
@@ -117,8 +150,17 @@ public class AllFragment extends Fragment {
         });
     }
 
-    private void setAdapterList(List<Song> list){
-        songAdapter.setSongList(list,current);
+    private void setAdapterList(List<Song> list) {
+        CurrentList = (ArrayList<Song>) list;
+        setSerchView(list);
+        songAdapter.setSongList(list, current);
     }
 
+    private ArrayList<Song> getFilterList(){
+        if (current == R.id.item_allSong){
+            return AllList;
+        }else {
+            return SelfList;
+        }
+    }
 }
