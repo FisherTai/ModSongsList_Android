@@ -23,30 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Todo 獲取歌單跟自選要改成在啟動頁
-        getSelfList();
-        SongRepository.getINSTANCE().InitSonglist();
-
-
         AllFragment allFragment = new AllFragment();
         MyUtil.getInstance().addFragmentToActivity(getSupportFragmentManager(), allFragment, R.id.fragment_conten);
-    }
-
-
-    private void getSelfList() {
-        SongRepository.getINSTANCE().getSelfListFromDB(new RepositoryCallBack<List<Song>>() {
-            @Override
-            public void onSuccess(List<Song> result) {
-                MainActivity.this.runOnUiThread(() ->
-                        SongRepository.getINSTANCE().setSelfList(result)
-                );
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.d(TAG, "onFailure: " + e);
-            }
-        });
     }
 
 }

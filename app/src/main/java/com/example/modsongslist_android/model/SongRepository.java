@@ -13,12 +13,9 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SongRepository {
     //存放歌單的Json字串
@@ -26,8 +23,8 @@ public class SongRepository {
     //存放轉換好的清單
     private ArrayList<Song> songList;
     //读取歌单状态 (歌單+自選都要完成)
-    private boolean getSongListComplete = false;
-    private boolean getSelfListComplete = false;
+    public static boolean getSongListComplete = false;
+    public static boolean getSelfListComplete = false;
     //存放自選歌曲的清單
     private List<Song> selfList;
 
@@ -63,6 +60,8 @@ public class SongRepository {
     public Future<?> getSelfListFromDB(@NonNull final RepositoryCallBack<List<Song>> callBack) {
         return ThreadPool.getInstance().submit(() -> {
             List<Song> list = sDB.SongDao().getAll();
+            getSelfListComplete = true;
+            Log.d(TAG, "getSelfListComplete = true");
             ThreadPool.getInstance().execute(() ->
                     callBack.onSuccess(list));
         });
@@ -145,9 +144,8 @@ public class SongRepository {
 //TODO 拿到自選清單後要更新全館清單的狀態
             }
         }
-
+        getSongListComplete = true;
         Log.d(TAG, "getSongListComplete = true");
-
     }
 
     public void setSelfList(List<Song> selfList) {
