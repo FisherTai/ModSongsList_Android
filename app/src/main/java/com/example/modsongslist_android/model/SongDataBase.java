@@ -13,13 +13,15 @@ public abstract class SongDataBase extends RoomDatabase {
 
     public abstract SongDao SongDao();
 
+    private static final Object sLock = new Object();
+
     public static SongDataBase buildDatabase(Context context) {
-
-        if (Instance == null) {
-            Instance = Room.databaseBuilder(context.getApplicationContext(), SongDataBase.class, "SongDataBase.db")
-                    .build();
-        }
-
-        return Instance;
+//        synchronized (sLock) {
+            if (Instance == null) {
+                Instance = Room.databaseBuilder(context.getApplicationContext(), SongDataBase.class, "SongDataBase.db")
+                        .build();
+            }
+            return Instance;
+//        }
     }
 }

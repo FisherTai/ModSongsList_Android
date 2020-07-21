@@ -10,10 +10,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * @author jett
- * @since 2017-09-04.
- */
 public class ThreadPool {
 
     private static final int CORE_POOL_SIZE = 3;
