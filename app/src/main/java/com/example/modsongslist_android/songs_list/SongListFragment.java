@@ -3,7 +3,6 @@ package com.example.modsongslist_android.songs_list;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
@@ -13,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.modsongslist_android.MyUtil;
 import com.example.modsongslist_android.R;
@@ -27,16 +25,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AllFragment extends Fragment {
-    private static final String TAG = "AllFragment";
+/**
+ * 依照廳別來顯示的Fragment
+ */
+
+public class SongListFragment extends Fragment {
+    private static final String TAG = "SongClassFragment";
 
     private RecyclerView rv;
     private SearchView sv;
     private MaterialToolbar mToolbar;
-    private BottomNavigationView bnv;
+//    private BottomNavigationView bnv;
 
     private SongAdapter songAdapter;
-    private int current = R.id.item_allSong;
+    private int current ;
+
+
+    public SongListFragment(){
+        current = R.id.item_allSong;
+    }
+
+    public SongListFragment(int id){
+        current = id;
+    }
+
 
     //存放當下顯示的歌單
     private ArrayList<Song> CurrentList;
@@ -54,13 +66,13 @@ public class AllFragment extends Fragment {
         setRecyclerView();
         setToolBar();
         setSerchView();
-        setBottomBar();
+//        setBottomBar();
 
         return view;
     }
 
     private void findView(View view) {
-        bnv = Objects.requireNonNull(getActivity()).findViewById(R.id.bnv_bottom);
+//        bnv = Objects.requireNonNull(getActivity()).findViewById(R.id.bnv_bottom);
         rv = view.findViewById(R.id.song_listview);
         sv = getActivity().findViewById(R.id.search_bar);
         mToolbar = getActivity().findViewById(R.id.toolbar);
@@ -120,35 +132,35 @@ public class AllFragment extends Fragment {
     }
 
 
-    private void setBottomBar() {
-        bnv.setSelectedItemId(R.id.item_allSong);
-        bnv.setOnNavigationItemSelectedListener(item -> {
-
-            rv.removeAllViews();
-
-            switch (current = item.getItemId()) {
-                case R.id.item_allSong:
-                    setAdapterList(AllList);
-                    break;
-
-                case R.id.item_favorite:
-                    SongRepository.getINSTANCE().getSelfListFromDB(new RepositoryCallBack<List<Song>>() {
-                        @Override
-                        public void onSuccess(List<Song> result) {
-                            SelfList = (ArrayList<Song>) result;
-                            Objects.requireNonNull(getActivity()).runOnUiThread(() -> setAdapterList(SelfList));
-                        }
-
-                        @Override
-                        public void onFailure(Exception e) {
-                            Log.d(TAG, "onFailure: " + e.toString());
-                        }
-                    });
-                    break;
-            }
-            return true;
-        });
-    }
+//    private void setBottomBar() {
+//        bnv.setSelectedItemId(R.id.item_allSong);
+//        bnv.setOnNavigationItemSelectedListener(item -> {
+//
+//            rv.removeAllViews();
+//
+//            switch (current = item.getItemId()) {
+//                case R.id.item_allSong:
+//                    setAdapterList(AllList);
+//                    break;
+//
+//                case R.id.item_favorite:
+//                    SongRepository.getINSTANCE().getSelfListFromDB(new RepositoryCallBack<List<Song>>() {
+//                        @Override
+//                        public void onSuccess(List<Song> result) {
+//                            SelfList = (ArrayList<Song>) result;
+//                            Objects.requireNonNull(getActivity()).runOnUiThread(() -> setAdapterList(SelfList));
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Exception e) {
+//                            Log.d(TAG, "onFailure: " + e.toString());
+//                        }
+//                    });
+//                    break;
+//            }
+//            return true;
+//        });
+//    }
 
     private void setAdapterList(List<Song> list) {
         CurrentList = (ArrayList<Song>) list;
@@ -156,10 +168,10 @@ public class AllFragment extends Fragment {
         songAdapter.setSongList(list, current);
     }
 
-    private ArrayList<Song> getFilterList(){
-        if (current == R.id.item_allSong){
+    private ArrayList<Song> getFilterList() {
+        if (current == R.id.item_allSong) {
             return AllList;
-        }else {
+        } else {
             return SelfList;
         }
     }
