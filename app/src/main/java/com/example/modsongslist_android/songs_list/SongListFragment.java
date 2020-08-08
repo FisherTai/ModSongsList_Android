@@ -32,20 +32,31 @@ import java.util.Objects;
 public class SongListFragment extends Fragment {
     private static final String TAG = "SongClassFragment";
 
+    final public static int CLASS_ALLSONG = 11; //全部
+    final public static int CLASS_FAVORITE = 12; //最爱
+    final public static int CLASS_LIHO = 13; //麗厚廳
+    final public static int CLASS_SONJAIN = 14; //尚讚K歌王
+    final public static int CLASS_FLASH = 15; //閃亮大歌廳
+    final public static int CLASS_GOODSONG = 16; //好歌大家唱
+    final public static int CLASS_HUANGCHUN = 17;  //歡唱K歌館
+    final public static int CLASS_MEIHUA = 18; //美華卡拉吧
+    final public static int CLASS_KSONG = 19;//K歌大聯盟
+
+
     private RecyclerView rv;
     private SearchView sv;
     private MaterialToolbar mToolbar;
 //    private BottomNavigationView bnv;
 
     private SongAdapter songAdapter;
-    private int current ;
+    private int current;
 
-
-    public SongListFragment(){
-        current = R.id.item_allSong;
-    }
-
-    public SongListFragment(int id){
+    /**
+     * 傳入分類的ID標記
+     *
+     * @param id
+     */
+    public SongListFragment(int id) {
         current = id;
     }
 
@@ -63,7 +74,7 @@ public class SongListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         findView(view);
-        setRecyclerView();
+        setRecyclerView(current);
         setToolBar();
         setSerchView();
 //        setBottomBar();
@@ -74,14 +85,74 @@ public class SongListFragment extends Fragment {
     private void findView(View view) {
 //        bnv = Objects.requireNonNull(getActivity()).findViewById(R.id.bnv_bottom);
         rv = view.findViewById(R.id.song_listview);
-        sv = getActivity().findViewById(R.id.search_bar);
         mToolbar = getActivity().findViewById(R.id.toolbar);
+        sv = getActivity().findViewById(R.id.search_bar);
     }
 
-    private void setRecyclerView() {
-        songAdapter = new SongAdapter(AllList);
-        rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv.setAdapter(songAdapter);
+    private void setRecyclerView(int current) {
+        if (current == CLASS_ALLSONG) {
+            songAdapter = new SongAdapter(AllList);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(songAdapter);
+            return;
+        }
+
+        if (current == CLASS_FAVORITE) {
+            songAdapter = new SongAdapter(AllList);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(songAdapter);
+            return;
+        }
+
+        if (current == CLASS_LIHO) {
+            songAdapter = new SongAdapter(AllList);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(songAdapter);
+            return;
+        }
+
+        if (current == CLASS_SONJAIN) {
+            songAdapter = new SongAdapter(AllList);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(songAdapter);
+            return;
+        }
+
+        if (current == CLASS_FLASH) {
+            songAdapter = new SongAdapter(AllList);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(songAdapter);
+            return;
+        }
+
+        if (current == CLASS_GOODSONG) {
+            songAdapter = new SongAdapter(AllList);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(songAdapter);
+            return;
+        }
+
+        if (current == CLASS_HUANGCHUN) {
+            songAdapter = new SongAdapter(AllList);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(songAdapter);
+            return;
+        }
+
+        if (current == CLASS_MEIHUA) {
+            songAdapter = new SongAdapter(AllList);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(songAdapter);
+            return;
+        }
+
+        if (current == CLASS_KSONG) {
+            songAdapter = new SongAdapter(AllList);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(songAdapter);
+            return;
+        }
+
     }
 
     private void setToolBar() {
@@ -91,7 +162,6 @@ public class SongListFragment extends Fragment {
                 case R.id.tb_menu_language1:
                     setAdapterList(SongRepository.getINSTANCE().getListByLanguage("台語", getFilterList()));
                     MyUtil.getInstance().toastShort("篩選:台語歌曲");
-
                     break;
                 case R.id.tb_menu_language2:
                     setAdapterList(SongRepository.getINSTANCE().getListByLanguage("國語", getFilterList()));

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/item_class1" android:title="麗厚廳" android:icon="@drawable/ic_queue_music_black_24dp"/>
+
+    <item android:id="@+id/item_class2" android:title="尚讚K歌王" android:icon="@drawable/ic_queue_music_black_24dp"/>
+
+    <item android:id="@+id/item_class3" android:title="閃亮大歌廳" android:icon="@drawable/ic_queue_music_black_24dp"/>
+
+    <item android:id="@+id/item_class4" android:title="好歌大家唱" android:icon="@drawable/ic_queue_music_black_24dp"/>
+
+    <item android:id="@+id/item_class5" android:title="歡唱K歌館" android:icon="@drawable/ic_queue_music_black_24dp"/>
+
+    <item android:id="@+id/item_class6" android:title="美華卡拉吧" android:icon="@drawable/ic_queue_music_black_24dp"/>
+
+    <item android:id="@+id/item_class7" android:title="K歌大聯盟" android:icon="@drawable/ic_queue_music_black_24dp"/>
+
+
+</menu>
