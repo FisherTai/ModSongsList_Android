@@ -121,7 +121,6 @@ public class SongListFragment extends Fragment {
         if (current == CLASS_LIHO) {
             Log.d(TAG, "setRecyclerView: 顯示 麗厚廳");
             ArrayList<Song> list  = SongRepository.getINSTANCE().getLihoList();
-            Logger.d(list); //TODO 為啥這裡印出來是空的?
             songAdapter = new SongAdapter(list);
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);

@@ -10,6 +10,7 @@ import com.example.modsongslist_android.ThreadPool;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.Logger;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -20,13 +21,21 @@ import java.util.stream.Collectors;
 public class SongRepository {
     //存放歌單的Json字串
     private String songListStr;
-    //存放轉換好的清單
-    private ArrayList<Song> songList;
+
     //读取歌单状态 (歌單+自選都要完成)
     public static boolean getSongListComplete = false;
     public static boolean getSelfListComplete = false;
     //存放自選歌曲的清單
+    //存放轉換好的清單
+    private ArrayList<Song> songList;
     private List<Song> selfList;
+    private ArrayList<Song> lihoList;
+    private ArrayList<Song> sonjainList;
+    private ArrayList<Song> flashList;
+    private ArrayList<Song> goodSongList;
+    private ArrayList<Song> hunagchunList;
+    private ArrayList<Song> meihuaList;
+    private ArrayList<Song> ksongList;
 
     private static final String TAG = "SongRepository";
     private static SongRepository INSTANCE;
@@ -108,19 +117,51 @@ public class SongRepository {
         return songList;
     }
 
+    public List<Song> getSelfList() {
+        return selfList;
+    }
+
+    public ArrayList<Song> getLihoList() {
+        return lihoList;
+    }
+
+    public ArrayList<Song> getSonjainList() {
+        return sonjainList;
+    }
+
+    public ArrayList<Song> getFlashList() {
+        return flashList;
+    }
+
+    public ArrayList<Song> getGoodSongList() {
+        return goodSongList;
+    }
+
+    public ArrayList<Song> getHunagchunList() {
+        return hunagchunList;
+    }
+
+    public ArrayList<Song> getMeihuaList() {
+        return meihuaList;
+    }
+
+    public ArrayList<Song> getKsongList() {
+        return ksongList;
+    }
+
     /**
      * 從傳入的歌單中篩選指定語言的歌曲
      *
      * @return
      */
-    public ArrayList<Song> getListByLanguage(String language , List<Song> sonlist) {
+    public ArrayList<Song> getListByLanguage(String language, List<Song> sonlist) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            Log.e(TAG, "getListByLanguage: "+language);
+            Log.e(TAG, "getListByLanguage: " + language);
             return (ArrayList<Song>) sonlist.stream().filter(Song -> Song.getLanguage().equals(language)).collect(Collectors.toList());
         } else {
-            ArrayList<Song> filterList  = new ArrayList<>();
+            ArrayList<Song> filterList = new ArrayList<>();
             for (Song s : sonlist) {
-                if(s.getLanguage().equals(language)){
+                if (s.getLanguage().equals(language)) {
                     filterList.add(s);
                 }
             }
@@ -133,6 +174,14 @@ public class SongRepository {
      * 從Assets取出全部歌單設定進 songList
      */
     public void InitSonglist() {
+        lihoList = new ArrayList<>();
+        sonjainList = new ArrayList<>();
+        flashList = new ArrayList<>();
+        goodSongList = new ArrayList<>();
+        hunagchunList = new ArrayList<>();
+        meihuaList = new ArrayList<>();
+        ksongList = new ArrayList<>();
+
         if (songList == null) {
             songListStr = MyUtil.getInstance().readAssetsJson(AppMain.getApp(), "song_list.json");
             Gson gson = new Gson();
@@ -142,35 +191,26 @@ public class SongRepository {
 
             //分類歌單
             for (Song song : songList) {
-                lihoList = new ArrayList<>();
-                sonjainList = new ArrayList<>();
-                flashList = new ArrayList<>();
-                goodSongList = new ArrayList<>();
-                hunagchunList = new ArrayList<>();
-                meihuaList = new ArrayList<>();
-                ksongList = new ArrayList<>();
-
                 switch (song.getSong_class()) {
-                    case LIHO:
+                    case "麗厚廳":
                         lihoList.add(song);
-                        Log.d(TAG, "InitSonglist: lihoList add");
                         break;
-                    case SONJAIN:
+                    case "尚讚K歌王":
                         sonjainList.add(song);
                         break;
-                    case FLASH:
+                    case "閃亮大歌廳":
                         flashList.add(song);
                         break;
-                    case GOODSONG:
+                    case "好歌大家唱":
                         goodSongList.add(song);
                         break;
-                    case HUANGCHUN:
+                    case "歡唱K歌館":
                         hunagchunList.add(song);
                         break;
-                    case MEIHUA:
+                    case "美華卡拉吧":
                         meihuaList.add(song);
                         break;
-                    case KSONG:
+                    case "K歌大聯盟":
                         ksongList.add(song);
                         break;
                 }
@@ -182,7 +222,7 @@ public class SongRepository {
     }
 
     public void setSelfList(List<Song> selfList) {
-        Log.d(TAG, "setSelfList: complete");
         this.selfList = selfList;
+        Log.d(TAG, "setSelfList: complete");
     }
 }

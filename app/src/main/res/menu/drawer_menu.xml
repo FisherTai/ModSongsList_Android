@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/item_class1" android:title="麗厚廳" android:icon="@drawable/ic_queue_music_black_24dp"/>
+    <item android:id="@+id/item_class1" android:title="麗厚廳" android:icon="@drawable/ic_queue_music_black_24dp" />
 
     <item android:id="@+id/item_class2" android:title="尚讚K歌王" android:icon="@drawable/ic_queue_music_black_24dp"/>
 
