@@ -140,9 +140,42 @@ public class SongRepository {
             }.getType();
             songList = gson.fromJson(SongRepository.getINSTANCE().songListStr, listType);
 
-            for (Song s : songList) {
-//TODO 拿到自選清單後要更新全館清單的狀態
+            //分類歌單
+            for (Song song : songList) {
+                lihoList = new ArrayList<>();
+                sonjainList = new ArrayList<>();
+                flashList = new ArrayList<>();
+                goodSongList = new ArrayList<>();
+                hunagchunList = new ArrayList<>();
+                meihuaList = new ArrayList<>();
+                ksongList = new ArrayList<>();
+
+                switch (song.getSong_class()) {
+                    case LIHO:
+                        lihoList.add(song);
+                        Log.d(TAG, "InitSonglist: lihoList add");
+                        break;
+                    case SONJAIN:
+                        sonjainList.add(song);
+                        break;
+                    case FLASH:
+                        flashList.add(song);
+                        break;
+                    case GOODSONG:
+                        goodSongList.add(song);
+                        break;
+                    case HUANGCHUN:
+                        hunagchunList.add(song);
+                        break;
+                    case MEIHUA:
+                        meihuaList.add(song);
+                        break;
+                    case KSONG:
+                        ksongList.add(song);
+                        break;
+                }
             }
+
         }
         getSongListComplete = true;
         Log.d(TAG, "getSongListComplete = true");

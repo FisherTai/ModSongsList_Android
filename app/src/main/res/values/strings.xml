@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">ModSongsList_Android</string>
+
+
+    <string name="allsong">全部</string>
+    <string name="favorite">最愛</string>
+    <string name="liho">麗厚廳</string>
+    <string name="sonjain">尚讚K歌王</string>
+    <string name="flash">閃亮大歌廳</string>
+    <string name="goodsong">好歌大家唱</string>
+    <string name="hunagchun">歡唱K歌館</string>
+    <string name="meihua">美華卡拉吧</string>
+    <string name="ksong">K歌大聯盟</string>
 </resources>

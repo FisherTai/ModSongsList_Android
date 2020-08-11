@@ -34,8 +34,10 @@ public class WelcomeActivity extends AppCompatActivity {
         Logger.addLogAdapter(new AndroidLogAdapter());
         setContentView(R.layout.activity_welcome);
 
+        //播放動畫
         playAnimation();
 
+        //如果歌單還未讀取完畢，就繼續等候
         mHandler = new Handler();
          mRunnable = new Runnable() {
             @Override
@@ -52,7 +54,9 @@ public class WelcomeActivity extends AppCompatActivity {
         };
         mHandler.postDelayed(mRunnable, SPLASH_TIME_OUT);
 
+        //讀取歌單
         SongRepository.getINSTANCE().InitSonglist();
+        //讀取自選清單
         getSelfList();
     }
 

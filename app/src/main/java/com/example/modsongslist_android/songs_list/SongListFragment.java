@@ -20,6 +20,7 @@ import com.example.modsongslist_android.model.Song;
 import com.example.modsongslist_android.model.SongRepository;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,56 +99,72 @@ public class SongListFragment extends Fragment {
         }
 
         if (current == CLASS_FAVORITE) {
-            songAdapter = new SongAdapter(AllList);
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-            rv.setAdapter(songAdapter);
+            SongRepository.getINSTANCE().getSelfListFromDB(new RepositoryCallBack<List<Song>>() {
+                @Override
+                public void onSuccess(List<Song> result) {
+                    SelfList = (ArrayList<Song>) result;
+                    Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                        songAdapter = new SongAdapter(SelfList);
+                        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+                        rv.setAdapter(songAdapter);
+                    });
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    Log.d(TAG, "onFailure: " + e.toString());
+                }
+            });
             return;
         }
 
         if (current == CLASS_LIHO) {
-            songAdapter = new SongAdapter(AllList);
+            Log.d(TAG, "setRecyclerView: 顯示 麗厚廳");
+            ArrayList<Song> list  = SongRepository.getINSTANCE().getLihoList();
+            Logger.d(list); //TODO 為啥這裡印出來是空的?
+            songAdapter = new SongAdapter(list);
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_SONJAIN) {
-            songAdapter = new SongAdapter(AllList);
+            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getSonjainList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_FLASH) {
-            songAdapter = new SongAdapter(AllList);
+            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getFlashList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_GOODSONG) {
-            songAdapter = new SongAdapter(AllList);
+            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getGoodSongList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_HUANGCHUN) {
-            songAdapter = new SongAdapter(AllList);
+            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getHunagchunList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_MEIHUA) {
-            songAdapter = new SongAdapter(AllList);
+            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getMeihuaList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_KSONG) {
-            songAdapter = new SongAdapter(AllList);
+            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getKsongList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
@@ -214,18 +231,7 @@ public class SongListFragment extends Fragment {
 //                    break;
 //
 //                case R.id.item_favorite:
-//                    SongRepository.getINSTANCE().getSelfListFromDB(new RepositoryCallBack<List<Song>>() {
-//                        @Override
-//                        public void onSuccess(List<Song> result) {
-//                            SelfList = (ArrayList<Song>) result;
-//                            Objects.requireNonNull(getActivity()).runOnUiThread(() -> setAdapterList(SelfList));
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Exception e) {
-//                            Log.d(TAG, "onFailure: " + e.toString());
-//                        }
-//                    });
+
 //                    break;
 //            }
 //            return true;

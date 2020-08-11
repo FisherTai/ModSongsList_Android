@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
 
     protected void initDarwerBar() {
 
-        setSupportActionBar(findViewById(R.id.toolbar));
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+//        setSupportActionBar(findViewById(R.id.toolbar));
+//        ActionBar ab = getSupportActionBar();
+//        assert ab != null;
+//        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+//        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
