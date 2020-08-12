@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private BottomNavigationView mBottomNavigationView;
     private MaterialToolbar mToolbar ;
-
+    private int currentSelected = 0;
     private int current;
 
 
@@ -56,11 +56,13 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.item_allSong:
                     SongListFragment allFragment = new SongListFragment(SongListFragment.CLASS_ALLSONG);
                     MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), allFragment, R.id.fragment_conten);
+                    setNavItemChecked();
                     break;
                 //最爱
                 case R.id.item_favorite:
                     SongListFragment favoriteFragment = new SongListFragment(SongListFragment.CLASS_FAVORITE);
                     MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), favoriteFragment, R.id.fragment_conten);
+                    setNavItemChecked();
                     break;
             }
             return true;
@@ -68,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void initDarwerBar() {
-
 //        setSupportActionBar(findViewById(R.id.toolbar));
 //        ActionBar ab = getSupportActionBar();
 //        assert ab != null;
@@ -86,15 +87,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
                     //移除先前點擊過的狀態
-                    if( navigationView.getCheckedItem() != null){
-                        Log.d(TAG, "setupDrawerContent: ");
-                        navigationView.getCheckedItem().setChecked(false);
-                    }
-
+                    setNavItemChecked();
                     switch (menuItem.getItemId()) {
                         //麗厚廳
                         case R.id.item_class1:
@@ -133,9 +131,17 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
                     // Close the navigation drawer when an item is selected.
+                    currentSelected = menuItem.getItemId();
                     menuItem.setChecked(true);
                     mDrawerLayout.closeDrawers();
                     return true;
                 });
     }
+
+    private void setNavItemChecked(){
+        if(currentSelected != 0) {
+            mNavigationView.getMenu().findItem(currentSelected).setChecked(false);
+        }
+    }
+
 }

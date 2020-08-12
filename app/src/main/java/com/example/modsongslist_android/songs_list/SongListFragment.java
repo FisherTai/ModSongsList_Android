@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +20,6 @@ import com.example.modsongslist_android.model.RepositoryCallBack;
 import com.example.modsongslist_android.model.Song;
 import com.example.modsongslist_android.model.SongRepository;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +77,7 @@ public class SongListFragment extends Fragment {
         setRecyclerView(current);
         setToolBar();
         setSerchView();
+        setTitle(current);
 //        setBottomBar();
 
         return view;
@@ -92,7 +92,7 @@ public class SongListFragment extends Fragment {
 
     private void setRecyclerView(int current) {
         if (current == CLASS_ALLSONG) {
-            songAdapter = new SongAdapter(AllList);
+            songAdapter = new SongAdapter(AllList, current);
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
@@ -104,7 +104,7 @@ public class SongListFragment extends Fragment {
                 public void onSuccess(List<Song> result) {
                     SelfList = (ArrayList<Song>) result;
                     Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
-                        songAdapter = new SongAdapter(SelfList);
+                        songAdapter = createAdapter(SelfList);
                         rv.setLayoutManager(new LinearLayoutManager(getContext()));
                         rv.setAdapter(songAdapter);
                     });
@@ -119,51 +119,50 @@ public class SongListFragment extends Fragment {
         }
 
         if (current == CLASS_LIHO) {
-            Log.d(TAG, "setRecyclerView: 顯示 麗厚廳");
-            ArrayList<Song> list  = SongRepository.getINSTANCE().getLihoList();
-            songAdapter = new SongAdapter(list);
+            ArrayList<Song> list = SongRepository.getINSTANCE().getLihoList();
+            songAdapter = createAdapter(list);
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_SONJAIN) {
-            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getSonjainList());
+            songAdapter = createAdapter(SongRepository.getINSTANCE().getSonjainList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_FLASH) {
-            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getFlashList());
+            songAdapter = createAdapter(SongRepository.getINSTANCE().getFlashList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_GOODSONG) {
-            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getGoodSongList());
+            songAdapter = createAdapter(SongRepository.getINSTANCE().getGoodSongList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_HUANGCHUN) {
-            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getHunagchunList());
+            songAdapter = createAdapter(SongRepository.getINSTANCE().getHunagchunList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_MEIHUA) {
-            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getMeihuaList());
+            songAdapter = createAdapter(SongRepository.getINSTANCE().getMeihuaList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
         }
 
         if (current == CLASS_KSONG) {
-            songAdapter = new SongAdapter(SongRepository.getINSTANCE().getKsongList());
+            songAdapter = createAdapter(SongRepository.getINSTANCE().getKsongList());
             rv.setLayoutManager(new LinearLayoutManager(getContext()));
             rv.setAdapter(songAdapter);
             return;
@@ -244,10 +243,39 @@ public class SongListFragment extends Fragment {
     }
 
     private ArrayList<Song> getFilterList() {
-        if (current == R.id.item_allSong) {
-            return AllList;
-        } else {
-            return SelfList;
+        switch (current) {
+            case CLASS_ALLSONG:
+                return AllList;
+            case CLASS_FAVORITE:
+                return SelfList;
+            case CLASS_LIHO:
+                return SongRepository.getINSTANCE().getLihoList();
+            case CLASS_SONJAIN:
+                return SongRepository.getINSTANCE().getSonjainList();
+            case CLASS_FLASH:
+                return SongRepository.getINSTANCE().getFlashList();
+            case CLASS_GOODSONG:
+                return SongRepository.getINSTANCE().getGoodSongList();
+            case CLASS_HUANGCHUN:
+                return SongRepository.getINSTANCE().getHunagchunList();
+            case CLASS_MEIHUA:
+                return SongRepository.getINSTANCE().getMeihuaList();
+            case CLASS_KSONG:
+                return SongRepository.getINSTANCE().getKsongList();
+            default:
+                Toast.makeText(getContext(), "錯誤，沒有這個類別，篩選全部的歌曲", Toast.LENGTH_SHORT).show();
+                return AllList;
         }
     }
+
+    private SongAdapter createAdapter(List<Song> songList) {
+        return new SongAdapter(songList, current);
+    }
+
+
+    private void setTitle(int current) {
+
+
+    }
+
 }

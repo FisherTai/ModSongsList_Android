@@ -19,12 +19,11 @@ import java.util.List;
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder> {
     private static final String TAG = "SongAdapter";
     private List<Song> injectionSongList;
-    private final int allSongPage = R.id.item_allSong;
-    private final int favoritePage = R.id.item_favorite;
     private int current = 0;
 
-    public SongAdapter(List<Song> songList) {
+    public SongAdapter(List<Song> songList, int current) {
         this.injectionSongList = songList;
+        this.current = current;
     }
 
     public void setSongList(List<Song> songList, int current) {
@@ -67,7 +66,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
             }
             notifyItemChanged(position);
 
-            if (current == favoritePage) {
+            if (current == SongListFragment.CLASS_FAVORITE) {
                 //這裡傳入List的remove直接將物件傳入，省的處理position的邏輯
                 injectionSongList.remove(song);
                 Log.d(TAG, "remove self list position:" + position);
@@ -80,7 +79,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
 
         if (!song.isFavorite()) {
             holder.addSong.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-        } else if (current == favoritePage) {
+        } else if (current == SongListFragment.CLASS_FAVORITE) {
             holder.addSong.setImageResource(R.drawable.ic_close_black_24dp);
         } else {
             holder.addSong.setImageResource(R.drawable.ic_favorite_black_24dp);

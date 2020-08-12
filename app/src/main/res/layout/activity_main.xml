@@ -25,6 +25,7 @@
                 android:layout_weight="0.08"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/TopAndBottom"
+                app:title="麗厚聽"
                 app:menu="@menu/tootbar_menu"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -60,9 +61,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_menu"
-        app:itemBackground="@drawable/selector_nav_view"
-        />
+        android:background="@color/ed3"
+        app:menu="@menu/drawer_menu" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
