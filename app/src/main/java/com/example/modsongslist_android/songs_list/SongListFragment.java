@@ -272,10 +272,37 @@ public class SongListFragment extends Fragment {
         return new SongAdapter(songList, current);
     }
 
-
     private void setTitle(int current) {
-
-
+        String title = "";
+        switch (current) {
+            case CLASS_ALLSONG:
+                title = getResources().getString(R.string.allsong);
+                break;
+            case CLASS_FAVORITE:
+                title = getResources().getString(R.string.favorite);
+                break;
+            case CLASS_LIHO:
+                title = getResources().getString(R.string.liho);
+                break;
+            case CLASS_SONJAIN:
+                title = getResources().getString(R.string.sonjain);
+                break;
+            case CLASS_FLASH:
+                title = getResources().getString(R.string.flash);
+                break;
+            case CLASS_GOODSONG:
+                title = getResources().getString(R.string.goodsong);
+                break;
+            case CLASS_HUANGCHUN:
+                title = getResources().getString(R.string.hunagchun);
+                break;
+            case CLASS_MEIHUA:
+                title = getResources().getString(R.string.meihua);
+                break;
+            case CLASS_KSONG:
+                title = getResources().getString(R.string.ksong);
+                break;
+        }
+        mToolbar.setTitle(title);
     }
-
 }

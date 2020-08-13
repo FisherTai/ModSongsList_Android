@@ -26,6 +26,7 @@
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/TopAndBottom"
                 app:title="麗厚聽"
+                app:titleTextColor="@color/ed5"
                 app:menu="@menu/tootbar_menu"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
