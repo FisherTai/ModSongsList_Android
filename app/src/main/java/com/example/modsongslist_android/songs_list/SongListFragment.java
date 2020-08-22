@@ -76,8 +76,7 @@ public class SongListFragment extends Fragment {
         findView(view);
         setRecyclerView(current);
         setToolBar();
-        setSerchView();
-        setTitle(current);
+//        setSerchView();
 //        setBottomBar();
 
         return view;
@@ -172,6 +171,7 @@ public class SongListFragment extends Fragment {
 
     private void setToolBar() {
         setSerchView();
+        setTitle(current);
         mToolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.tb_menu_language1:
@@ -199,42 +199,31 @@ public class SongListFragment extends Fragment {
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                ArrayList<Song> searchList = new ArrayList<>();
-                for (Song song : list) {
-                    if (song.getName().contains(query) || song.getSinger().contains(query)) {
-                        searchList.add(song);
-                    }
-                }
-                setAdapterList(searchList);
+//                ArrayList<Song> searchList = new ArrayList<>();
+//                for (Song song : list) {
+//                    if (song.getName().contains(query) || song.getSinger().contains(query)) {
+//                        searchList.add(song);
+//                    }
+//                }
+//                setAdapterList(searchList);
+                Log.d(TAG, "onQueryTextSubmit: " );
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                ArrayList<Song> searchList = new ArrayList<>();
+                for (Song song : list) {
+                    if (song.getName().contains(newText) || song.getSinger().contains(newText)) {
+                        searchList.add(song);
+                    }
+                }
+                setAdapterList(searchList);
+                Log.d(TAG, "onQueryTextChange: ");
                 return false;
             }
         });
     }
-
-
-//    private void setBottomBar() {
-//        bnv.setSelectedItemId(R.id.item_allSong);
-//        bnv.setOnNavigationItemSelectedListener(item -> {
-//
-//            rv.removeAllViews();
-//
-//            switch (current = item.getItemId()) {
-//                case R.id.item_allSong:
-//                    setAdapterList(AllList);
-//                    break;
-//
-//                case R.id.item_favorite:
-
-//                    break;
-//            }
-//            return true;
-//        });
-//    }
 
     private void setAdapterList(List<Song> list) {
         CurrentList = (ArrayList<Song>) list;
@@ -263,7 +252,7 @@ public class SongListFragment extends Fragment {
             case CLASS_KSONG:
                 return SongRepository.getINSTANCE().getKsongList();
             default:
-                Toast.makeText(getContext(), "錯誤，沒有這個類別，篩選全部的歌曲", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "篩選全部的歌曲", Toast.LENGTH_SHORT).show();
                 return AllList;
         }
     }
