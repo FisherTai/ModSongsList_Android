@@ -1,6 +1,7 @@
 package com.example.modsongslist_android.songs_list;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,6 @@ public class SongListFragment extends Fragment {
     private RecyclerView rv;
     private SearchView sv;
     private MaterialToolbar mToolbar;
-//    private BottomNavigationView bnv;
 
     private SongAdapter songAdapter;
     private int current;
@@ -62,11 +62,11 @@ public class SongListFragment extends Fragment {
 
 
     //存放當下顯示的歌單
-    private ArrayList<Song> CurrentList;
+    private ArrayList<Song> currentList;
     //存放自選歌單
     private ArrayList<Song> SelfList;
     //取得所有的歌單
-    private final ArrayList<Song> AllList = SongRepository.getINSTANCE().getSongList();
+    private final ArrayList<Song> ALL_LIST = SongRepository.getINSTANCE().getSongList();
 
 
     @Nullable
@@ -76,14 +76,11 @@ public class SongListFragment extends Fragment {
         findView(view);
         setRecyclerView(current);
         setToolBar();
-//        setSerchView();
-//        setBottomBar();
 
         return view;
     }
 
     private void findView(View view) {
-//        bnv = Objects.requireNonNull(getActivity()).findViewById(R.id.bnv_bottom);
         rv = view.findViewById(R.id.song_listview);
         mToolbar = getActivity().findViewById(R.id.toolbar);
         sv = getActivity().findViewById(R.id.search_bar);
@@ -91,9 +88,8 @@ public class SongListFragment extends Fragment {
 
     private void setRecyclerView(int current) {
         if (current == CLASS_ALLSONG) {
-            songAdapter = new SongAdapter(AllList, current);
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-            rv.setAdapter(songAdapter);
+            currentList = ALL_LIST;
+            setSongAdapter(currentList, current);
             return;
         }
 
@@ -102,10 +98,9 @@ public class SongListFragment extends Fragment {
                 @Override
                 public void onSuccess(List<Song> result) {
                     SelfList = (ArrayList<Song>) result;
+                    currentList = SelfList;
                     Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
-                        songAdapter = createAdapter(SelfList);
-                        rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                        rv.setAdapter(songAdapter);
+                        setSongAdapter(currentList, current);
                     });
                 }
 
@@ -118,55 +113,54 @@ public class SongListFragment extends Fragment {
         }
 
         if (current == CLASS_LIHO) {
-            ArrayList<Song> list = SongRepository.getINSTANCE().getLihoList();
-            songAdapter = createAdapter(list);
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-            rv.setAdapter(songAdapter);
+            currentList = SongRepository.getINSTANCE().getLihoList();
+            setSongAdapter(currentList, current);
             return;
         }
 
         if (current == CLASS_SONJAIN) {
-            songAdapter = createAdapter(SongRepository.getINSTANCE().getSonjainList());
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-            rv.setAdapter(songAdapter);
+            currentList = SongRepository.getINSTANCE().getSonjainList();
+            setSongAdapter(currentList, current);
             return;
         }
 
         if (current == CLASS_FLASH) {
-            songAdapter = createAdapter(SongRepository.getINSTANCE().getFlashList());
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-            rv.setAdapter(songAdapter);
+            currentList = SongRepository.getINSTANCE().getFlashList();
+            setSongAdapter(currentList, current);
             return;
         }
 
         if (current == CLASS_GOODSONG) {
-            songAdapter = createAdapter(SongRepository.getINSTANCE().getGoodSongList());
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-            rv.setAdapter(songAdapter);
+            currentList = SongRepository.getINSTANCE().getGoodSongList();
+            setSongAdapter(currentList, current);
             return;
         }
 
         if (current == CLASS_HUANGCHUN) {
-            songAdapter = createAdapter(SongRepository.getINSTANCE().getHunagchunList());
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-            rv.setAdapter(songAdapter);
+            currentList = SongRepository.getINSTANCE().getHunagchunList();
+            setSongAdapter(currentList, current);
             return;
         }
 
         if (current == CLASS_MEIHUA) {
-            songAdapter = createAdapter(SongRepository.getINSTANCE().getMeihuaList());
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-            rv.setAdapter(songAdapter);
+            currentList = SongRepository.getINSTANCE().getMeihuaList();
+            setSongAdapter(currentList, current);
             return;
         }
 
         if (current == CLASS_KSONG) {
-            songAdapter = createAdapter(SongRepository.getINSTANCE().getKsongList());
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-            rv.setAdapter(songAdapter);
+            currentList = SongRepository.getINSTANCE().getKsongList();
+            setSongAdapter(currentList, current);
             return;
         }
 
+    }
+
+
+    private void setSongAdapter(ArrayList<Song> currentList , int current) {
+        songAdapter = new SongAdapter(currentList, current);
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv.setAdapter(songAdapter);
     }
 
     private void setToolBar() {
@@ -189,7 +183,7 @@ public class SongListFragment extends Fragment {
 
 
     private void setSerchView() {
-        setSerchView(AllList);
+        setSerchView(currentList);
     }
 
     //設置搜索條，搜尋的清單要依頁面不同變動
@@ -199,67 +193,49 @@ public class SongListFragment extends Fragment {
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                ArrayList<Song> searchList = new ArrayList<>();
-//                for (Song song : list) {
-//                    if (song.getName().contains(query) || song.getSinger().contains(query)) {
-//                        searchList.add(song);
-//                    }
-//                }
-//                setAdapterList(searchList);
-                Log.d(TAG, "onQueryTextSubmit: " );
+                Log.d(TAG, "onQueryTextSubmit: " +query);
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                Log.d(TAG, "onQueryTextChange: "+newText);
+
+                char newWord = newText.charAt(newText.length()-1);
+                boolean isEng = String.valueOf(newWord).matches("[a-zA-Z]");
                 ArrayList<Song> searchList = new ArrayList<>();
+
+                if(TextUtils.isEmpty(newText.trim())){
+                    songAdapter.changeList(list, current);
+                    return false;
+                }
+
                 for (Song song : list) {
                     if (song.getName().contains(newText) || song.getSinger().contains(newText)) {
                         searchList.add(song);
                     }
+                    //如果不是英文字的話就不做大小寫轉換
+                    if(!isEng){
+                        continue;
+                    }
+
+                    if (song.getName().toLowerCase().contains(newText.toLowerCase()) || song.getSinger().toLowerCase().contains(newText.toLowerCase())) {
+                        searchList.add(song);
+                    }
                 }
-                setAdapterList(searchList);
-                Log.d(TAG, "onQueryTextChange: ");
+                songAdapter.changeList(searchList, current);
                 return false;
             }
         });
     }
 
     private void setAdapterList(List<Song> list) {
-        CurrentList = (ArrayList<Song>) list;
+        currentList = (ArrayList<Song>) list;
         setSerchView(list);
-        songAdapter.setSongList(list, current);
+        songAdapter.changeList(list, current);
     }
 
-    private ArrayList<Song> getFilterList() {
-        switch (current) {
-            case CLASS_ALLSONG:
-                return AllList;
-            case CLASS_FAVORITE:
-                return SelfList;
-            case CLASS_LIHO:
-                return SongRepository.getINSTANCE().getLihoList();
-            case CLASS_SONJAIN:
-                return SongRepository.getINSTANCE().getSonjainList();
-            case CLASS_FLASH:
-                return SongRepository.getINSTANCE().getFlashList();
-            case CLASS_GOODSONG:
-                return SongRepository.getINSTANCE().getGoodSongList();
-            case CLASS_HUANGCHUN:
-                return SongRepository.getINSTANCE().getHunagchunList();
-            case CLASS_MEIHUA:
-                return SongRepository.getINSTANCE().getMeihuaList();
-            case CLASS_KSONG:
-                return SongRepository.getINSTANCE().getKsongList();
-            default:
-                Toast.makeText(getContext(), "篩選全部的歌曲", Toast.LENGTH_SHORT).show();
-                return AllList;
-        }
-    }
-
-    private SongAdapter createAdapter(List<Song> songList) {
-        return new SongAdapter(songList, current);
-    }
 
     private void setTitle(int current) {
         String title = "";
@@ -294,4 +270,31 @@ public class SongListFragment extends Fragment {
         }
         mToolbar.setTitle(title);
     }
+
+    private ArrayList<Song> getFilterList() {
+        switch (current) {
+            case CLASS_ALLSONG:
+                return ALL_LIST;
+            case CLASS_FAVORITE:
+                return SelfList;
+            case CLASS_LIHO:
+                return SongRepository.getINSTANCE().getLihoList();
+            case CLASS_SONJAIN:
+                return SongRepository.getINSTANCE().getSonjainList();
+            case CLASS_FLASH:
+                return SongRepository.getINSTANCE().getFlashList();
+            case CLASS_GOODSONG:
+                return SongRepository.getINSTANCE().getGoodSongList();
+            case CLASS_HUANGCHUN:
+                return SongRepository.getINSTANCE().getHunagchunList();
+            case CLASS_MEIHUA:
+                return SongRepository.getINSTANCE().getMeihuaList();
+            case CLASS_KSONG:
+                return SongRepository.getINSTANCE().getKsongList();
+            default:
+                Toast.makeText(getContext(), "篩選全部的歌曲", Toast.LENGTH_SHORT).show();
+                return ALL_LIST;
+        }
+    }
+
 }

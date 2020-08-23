@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ModSongsList_Android</string>
 
-
+    <string name="app_title">KOD歡唱吧</string>
     <string name="allsong">全部</string>
     <string name="favorite">最愛</string>
     <string name="liho">麗厚廳</string>

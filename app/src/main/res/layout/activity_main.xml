@@ -14,10 +14,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-<!--        <com.google.android.material.appbar.AppBarLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -25,19 +21,11 @@
                 android:layout_weight="0.08"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/TopAndBottom"
+                app:collapseIcon="@color/ed2"
                 app:title="麗厚聽"
                 app:titleTextColor="@color/ed5"
                 app:menu="@menu/tootbar_menu"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-<!--        </com.google.android.material.appbar.AppBarLayout>-->
-
-        <!--    <SearchView-->
-        <!--        android:id="@+id/search_bar"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="0dp"-->
-        <!--        android:layout_weight="0.08"-->
-        <!--        android:theme="@style/TopAndBottom"/>-->
 
         <FrameLayout
             android:id="@+id/fragment_conten"

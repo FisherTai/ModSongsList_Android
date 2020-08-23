@@ -26,7 +26,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
         this.current = current;
     }
 
-    public void setSongList(List<Song> songList, int current) {
+    public void changeList(List<Song> songList, int current) {
         this.injectionSongList = songList;
         this.current = current;
         notifyDataSetChanged();

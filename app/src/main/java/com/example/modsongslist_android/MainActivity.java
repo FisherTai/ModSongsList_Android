@@ -1,15 +1,10 @@
 package com.example.modsongslist_android;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 
 import com.example.modsongslist_android.songs_list.SongListFragment;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -24,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView mBottomNavigationView;
     private MaterialToolbar mToolbar ;
     private int currentSelected = 0;
-    private int current;
 
 
     @Override
@@ -51,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigationView.setSelectedItemId(R.id.item_allSong);
         mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 
-            switch (current = item.getItemId()) {
+            switch (item.getItemId()) {
                 //全部
                 case R.id.item_allSong:
                     SongListFragment allFragment = new SongListFragment(SongListFragment.CLASS_ALLSONG);
@@ -70,23 +64,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void initDarwerBar() {
-//        setSupportActionBar(findViewById(R.id.toolbar));
-//        ActionBar ab = getSupportActionBar();
-//        assert ab != null;
-//        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-//        ab.setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationIcon(R.drawable.ic_menu);
+        mToolbar.setNavigationOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
     }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
