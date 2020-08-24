@@ -7,6 +7,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.os.Bundle;
 
 import com.example.modsongslist_android.songs_list.SongListFragment;
+import com.example.modsongslist_android.songs_list.SongViewPagerFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
                     MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), favoriteFragment, R.id.fragment_conten);
                     setNavItemChecked();
                     break;
+                case R.id.item_test:
+                    SongViewPagerFragment viewPagerFragment = new SongViewPagerFragment();
+                    MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), viewPagerFragment, R.id.fragment_conten);
+                    setNavItemChecked();
             }
             return true;
         });
