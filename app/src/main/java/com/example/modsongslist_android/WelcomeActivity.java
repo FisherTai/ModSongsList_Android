@@ -12,15 +12,12 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.modsongslist_android.model.RepositoryCallBack;
 import com.example.modsongslist_android.model.Song;
 import com.example.modsongslist_android.model.SongRepository;
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.Logger;
+
 
 import java.util.List;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
     private static final String TAG = "WelcomeActivity";
-    //Lottie動畫
-    private LottieAnimationView lottieAnimationView;
 
     private static int SPLASH_TIME_OUT = 3000;
     private static final int REQ_LOGIN = 1;
@@ -29,17 +26,22 @@ public class WelcomeActivity extends AppCompatActivity {
     private Runnable mRunnable;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Logger.addLogAdapter(new AndroidLogAdapter());
-        setContentView(R.layout.activity_welcome);
+    protected int getLayout() {
+        return R.layout.activity_welcome;
+    }
 
+    @Override
+    protected void findView() {
+
+    }
+
+    @Override
+    protected void initLayoutView() {
         //播放動畫
         playAnimation();
-
         //如果歌單還未讀取完畢，就繼續等候
         mHandler = new Handler();
-         mRunnable = new Runnable() {
+        mRunnable = new Runnable() {
             @Override
             public void run() {
                 if (SongRepository.getSelfListComplete && SongRepository.getSongListComplete) {
@@ -47,8 +49,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     Intent intent = new Intent(WelcomeActivity.this, MainActivity.class); //MainActivity為主要檔案名稱
                     WelcomeActivity.this.startActivityForResult(intent, REQ_LOGIN);
                     WelcomeActivity.this.finish();
-                }else {
-                    mHandler.postDelayed(this,SPLASH_TIME_OUT);
+                } else {
+                    mHandler.postDelayed(this, SPLASH_TIME_OUT);
                 }
             }
         };
@@ -62,13 +64,13 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
     private void playAnimation() {
-        lottieAnimationView = findViewById(R.id.lottie_anim);
+        //Lottie動畫
+        LottieAnimationView lottieAnimationView = findViewById(R.id.lottie_anim);
 //        lottieAnimationView.pauseAnimation(); //動畫暫停
 //        lottieAnimationView.cancelAnimation();  //動畫取消
         lottieAnimationView.setSpeed(2.2f); //播放速度
         lottieAnimationView.playAnimation(); //動畫播放
     }
-
 
 
     private void getSelfList() {

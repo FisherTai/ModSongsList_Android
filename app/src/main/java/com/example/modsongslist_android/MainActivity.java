@@ -1,32 +1,37 @@
 package com.example.modsongslist_android;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.os.Bundle;
-
 import com.example.modsongslist_android.songs_list.SongListFragment;
-import com.example.modsongslist_android.songs_list.SongViewPagerFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private NavigationView mNavigationView;
     private DrawerLayout mDrawerLayout;
     private BottomNavigationView mBottomNavigationView;
-    private MaterialToolbar mToolbar ;
+    private MaterialToolbar mToolbar;
     private int currentSelected = 0;
 
+    @Override
+    protected int getLayout() {
+        return R.layout.activity_main;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        findview();
+    protected void findView() {
+        mToolbar = findViewById(R.id.toolbar);
+        mNavigationView = findViewById(R.id.nav_view);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mBottomNavigationView = findViewById(R.id.bnv_bottom);
+    }
+
+    @Override
+    protected void initLayoutView() {
         setBottomBar();
         initDarwerBar();
         setupDrawerContent(mNavigationView);
@@ -34,13 +39,6 @@ public class MainActivity extends AppCompatActivity {
         MyUtil.getInstance().addFragmentToActivity(getSupportFragmentManager(), allFragment, R.id.fragment_conten);
     }
 
-    private void findview(){
-        mToolbar = findViewById(R.id.toolbar);
-        mNavigationView = findViewById(R.id.nav_view);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        mBottomNavigationView = findViewById(R.id.bnv_bottom);
-    }
-//
     private void setBottomBar() {
 
         mBottomNavigationView.setSelectedItemId(R.id.item_allSong);
@@ -59,10 +57,10 @@ public class MainActivity extends AppCompatActivity {
                     MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), favoriteFragment, R.id.fragment_conten);
                     setNavItemChecked();
                     break;
-                case R.id.item_test:
-                    SongViewPagerFragment viewPagerFragment = new SongViewPagerFragment();
-                    MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), viewPagerFragment, R.id.fragment_conten);
-                    setNavItemChecked();
+//                case R.id.item_test:
+//                    SongViewPagerFragment viewPagerFragment = new SongViewPagerFragment();
+//                    MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), viewPagerFragment, R.id.fragment_conten);
+//                    setNavItemChecked();
             }
             return true;
         });
@@ -123,10 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void setNavItemChecked(){
-        if(currentSelected != 0) {
+    private void setNavItemChecked() {
+        if (currentSelected != 0) {
             mNavigationView.getMenu().findItem(currentSelected).setChecked(false);
         }
     }
-
 }

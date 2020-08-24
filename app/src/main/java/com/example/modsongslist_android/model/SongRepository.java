@@ -10,7 +10,6 @@ import com.example.modsongslist_android.ThreadPool;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.orhanobut.logger.Logger;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,17 +24,18 @@ public class SongRepository {
     //读取歌单状态 (歌單+自選都要完成)
     public static boolean getSongListComplete = false;
     public static boolean getSelfListComplete = false;
-    //存放自選歌曲的清單
     //存放轉換好的清單
     private ArrayList<Song> songList;
+    //存放自選歌曲的清單
     private List<Song> selfList;
-    private ArrayList<Song> lihoList;
-    private ArrayList<Song> sonjainList;
-    private ArrayList<Song> flashList;
-    private ArrayList<Song> goodSongList;
-    private ArrayList<Song> hunagchunList;
-    private ArrayList<Song> meihuaList;
-    private ArrayList<Song> ksongList;
+    //手機在按返回鍵時,雖然Activity都已經Destroy了,實際上APP並沒有關閉.這些變數不會被重置
+    private ArrayList<Song> lihoList = new ArrayList<>();
+    private ArrayList<Song> sonjainList = new ArrayList<>();
+    private ArrayList<Song> flashList = new ArrayList<>();
+    private ArrayList<Song> goodSongList = new ArrayList<>();
+    private ArrayList<Song> hunagchunList = new ArrayList<>();
+    private ArrayList<Song> meihuaList = new ArrayList<>();
+    private ArrayList<Song> ksongList = new ArrayList<>();
 
     private static final String TAG = "SongRepository";
     private static SongRepository INSTANCE;
@@ -174,13 +174,6 @@ public class SongRepository {
      * 從Assets取出全部歌單設定進 songList
      */
     public void InitSonglist() {
-        lihoList = new ArrayList<>();
-        sonjainList = new ArrayList<>();
-        flashList = new ArrayList<>();
-        goodSongList = new ArrayList<>();
-        hunagchunList = new ArrayList<>();
-        meihuaList = new ArrayList<>();
-        ksongList = new ArrayList<>();
 
         if (songList == null) {
             songListStr = MyUtil.getInstance().readAssetsJson(AppMain.getApp(), "song_list.json");
@@ -188,7 +181,6 @@ public class SongRepository {
             Type listType = new TypeToken<List<Song>>() {
             }.getType();
             songList = gson.fromJson(SongRepository.getINSTANCE().songListStr, listType);
-
             //分類歌單
             for (Song song : songList) {
                 switch (song.getSong_class()) {

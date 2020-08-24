@@ -9,12 +9,10 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.modsongslist_android.BaseFragment;
 import com.example.modsongslist_android.MyUtil;
 import com.example.modsongslist_android.R;
 import com.example.modsongslist_android.model.RepositoryCallBack;
@@ -30,7 +28,7 @@ import java.util.Objects;
  * 依照廳別來顯示的Fragment
  */
 
-public class SongListFragment extends Fragment {
+public class SongListFragment extends BaseFragment {
     private static final String TAG = "SongClassFragment";
 
     final public static int CLASS_ALLSONG = 11; //全部
@@ -68,22 +66,22 @@ public class SongListFragment extends Fragment {
     //取得所有的歌單
     private final ArrayList<Song> ALL_LIST = SongRepository.getINSTANCE().getSongList();
 
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        findView(view);
-        setRecyclerView(current);
-        setToolBar();
-
-        return view;
+    protected int getLayout() {
+        return R.layout.fragment_main;
     }
 
-    private void findView(View view) {
-        rv = view.findViewById(R.id.song_listview);
+    @Override
+    protected void findView() {
+        rv = rootView.findViewById(R.id.song_listview);
         mToolbar = getActivity().findViewById(R.id.toolbar);
         sv = getActivity().findViewById(R.id.search_bar);
+    }
+
+    @Override
+    protected void initLayoutView() {
+        setRecyclerView(current);
+        setToolBar();
     }
 
     private void setRecyclerView(int current) {
@@ -165,7 +163,7 @@ public class SongListFragment extends Fragment {
 
     private void setToolBar() {
         setSerchView();
-        setTitle(current);
+        mToolbar.setTitle(getTitle(current));
         mToolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.tb_menu_language1:
@@ -202,14 +200,14 @@ public class SongListFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 Log.d(TAG, "onQueryTextChange: "+newText);
 
-                char newWord = newText.charAt(newText.length()-1);
-                boolean isEng = String.valueOf(newWord).matches("[a-zA-Z]");
-                ArrayList<Song> searchList = new ArrayList<>();
-
                 if(TextUtils.isEmpty(newText.trim())){
                     songAdapter.changeList(list, current);
                     return false;
                 }
+
+                ArrayList<Song> searchList = new ArrayList<>();
+                char newWord = newText.charAt(newText.length()-1);
+                boolean isEng = String.valueOf(newWord).matches("[a-zA-Z]");
 
                 for (Song song : list) {
                     if (song.getName().contains(newText) || song.getSinger().contains(newText)) {
@@ -237,7 +235,7 @@ public class SongListFragment extends Fragment {
     }
 
 
-    private void setTitle(int current) {
+    private String getTitle(int current) {
         String title = "";
         switch (current) {
             case CLASS_ALLSONG:
@@ -268,7 +266,7 @@ public class SongListFragment extends Fragment {
                 title = getResources().getString(R.string.ksong);
                 break;
         }
-        mToolbar.setTitle(title);
+        return title;
     }
 
     private ArrayList<Song> getFilterList() {
