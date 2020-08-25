@@ -24,7 +24,6 @@
             android:layout_weight="0.5"
             android:textSize="20sp"
             android:textColor="@color/ed1"
-            android:text="191304"
             android:theme="@style/TextTheme"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent" />
@@ -35,7 +34,6 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:textSize="20sp"
-            android:text="12樓"
             android:theme="@style/TextTheme"
             app:layout_constraintStart_toEndOf="@+id/song_id" />
 
@@ -45,7 +43,6 @@
             android:layout_height="40dp"
             android:layout_weight="0.5"
             android:textSize="20sp"
-            android:text="佚名"
             android:theme="@style/TextTheme"
             app:layout_constraintStart_toEndOf="@+id/song_name" />
 
@@ -62,7 +59,6 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="0.5"
-            android:text="國語"
             android:theme="@style/TextTheme"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -72,21 +68,20 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:text="麗厚廳"
             android:theme="@style/TextTheme"
             app:layout_constraintStart_toEndOf="@+id/song_char_count"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-        <TextView
-            android:id="@+id/song_char_count"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.25"
-            android:text="0"
-            android:theme="@style/TextTheme"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/song_language"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        <!-- 字部的欄位-->
+<!--        <TextView-->
+<!--            android:id="@+id/song_char_count"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_weight="0.25"-->
+<!--            android:theme="@style/TextTheme"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/song_language"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
 
         <ImageView
             android:id="@+id/add_song"

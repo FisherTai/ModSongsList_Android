@@ -45,7 +45,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
         holder.id.setText(song.getNumber());
         holder.name.setText(song.getName());
         holder.sClass.setText(song.getSong_class());
-        holder.CharCount.setText(song.getChar_count());
+//        holder.CharCount.setText(song.getChar_count());
         holder.singer.setText(song.getSinger());
         holder.language.setText(song.getLanguage());
         holder.addSong.setOnClickListener(v -> {

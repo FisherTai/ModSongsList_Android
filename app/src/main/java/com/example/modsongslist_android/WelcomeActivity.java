@@ -21,7 +21,7 @@ public class WelcomeActivity extends BaseActivity {
 
     private static int SPLASH_TIME_OUT = 3000;
     private static final int REQ_LOGIN = 1;
-
+    LottieAnimationView lottieAnimationView;
     private Handler mHandler = new Handler();
     private Runnable mRunnable;
 
@@ -65,7 +65,7 @@ public class WelcomeActivity extends BaseActivity {
 
     private void playAnimation() {
         //Lottie動畫
-        LottieAnimationView lottieAnimationView = findViewById(R.id.lottie_anim);
+        lottieAnimationView = findViewById(R.id.lottie_anim);
 //        lottieAnimationView.pauseAnimation(); //動畫暫停
 //        lottieAnimationView.cancelAnimation();  //動畫取消
         lottieAnimationView.setSpeed(2.2f); //播放速度
@@ -92,6 +92,7 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        lottieAnimationView.cancelAnimation();
         mHandler.removeCallbacks(mRunnable);
     }
 }
