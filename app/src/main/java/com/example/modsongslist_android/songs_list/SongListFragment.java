@@ -1,11 +1,8 @@
 package com.example.modsongslist_android.songs_list;
 
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -18,7 +15,6 @@ import com.example.modsongslist_android.R;
 import com.example.modsongslist_android.model.RepositoryCallBack;
 import com.example.modsongslist_android.model.Song;
 import com.example.modsongslist_android.model.SongRepository;
-import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +40,6 @@ public class SongListFragment extends BaseFragment {
 
     private RecyclerView rv;
     private SearchView sv;
-    private MaterialToolbar mToolbar;
 
     private SongAdapter songAdapter;
     private int current;
@@ -68,13 +63,14 @@ public class SongListFragment extends BaseFragment {
 
     @Override
     protected int getLayout() {
+        Log.d(TAG, "onCreateView: "+getTitle(current));
         return R.layout.fragment_main;
     }
 
     @Override
     protected void findView() {
+        super.findView();
         rv = rootView.findViewById(R.id.song_listview);
-        mToolbar = getActivity().findViewById(R.id.toolbar);
         sv = getActivity().findViewById(R.id.search_bar);
     }
 
@@ -163,7 +159,6 @@ public class SongListFragment extends BaseFragment {
 
     private void setToolBar() {
         setSerchView();
-        mToolbar.setTitle(getTitle(current));
         mToolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.tb_menu_language1:
@@ -295,4 +290,10 @@ public class SongListFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        //在onResume確保ViewPager每次切換頁面都會變更Title
+        mToolbar.setTitle(getTitle(current));
+        super.onResume();
+    }
 }
