@@ -13,15 +13,14 @@
     <string name="ksong">K歌大聯盟</string>
 
     <string-array name="song_class_array">
-        <item name="allsong">全部</item>
-        <item name="favorite">最愛</item>
-        <item name="liho">麗厚廳</item>
-        <item name="sonjain">尚讚K歌王</item>
-        <item name="flash">閃亮大歌廳</item>
-        <item name="goodsong">好歌大家唱</item>
-        <item name="hunagchun">歡唱K歌館</item>
-        <item name="meihua">美華卡拉吧</item>
-        <item name="ksong">K歌大聯盟</item>
+        <item>全部</item>
+        <item>麗厚廳</item>
+        <item>尚讚K歌王</item>
+        <item>閃亮大歌廳</item>
+        <item>好歌大家唱</item>
+        <item>歡唱K歌館</item>
+        <item>美華卡拉吧</item>
+        <item>K歌大聯盟</item>
     </string-array>
 
 </resources>

@@ -14,18 +14,18 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.08"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="@style/TopAndBottom"
-                app:collapseIcon="@color/ed2"
-                app:title="麗厚聽"
-                app:titleTextColor="@color/ed5"
-                app:menu="@menu/tootbar_menu"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.08"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/TopAndBottom"
+            app:collapseIcon="@color/ed2"
+            app:menu="@menu/tootbar_menu"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="麗厚聽"
+            app:titleTextColor="@color/ed5" />
 
         <FrameLayout
             android:id="@+id/fragment_conten"
@@ -43,15 +43,15 @@
 
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        android:background="@color/ed3"
-        app:menu="@menu/drawer_menu" />
+    <!--    <com.google.android.material.navigation.NavigationView-->
+    <!--        android:id="@+id/nav_view"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_gravity="start"-->
+    <!--        android:fitsSystemWindows="true"-->
+    <!--        app:headerLayout="@layout/nav_header"-->
+    <!--        android:background="@color/ed3"-->
+    <!--        app:menu="@menu/drawer_menu" />-->
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

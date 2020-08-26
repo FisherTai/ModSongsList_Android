@@ -36,7 +36,6 @@ public class SongViewPagerFragment extends BaseFragment {
         String []titles = getResources().getStringArray(R.array.song_class_array);
         PagerAdapter mPagerAdapter = new PagerAdapter(this,titles);
         mPagerAdapter.addFragment(new SongListFragment(SongListFragment.CLASS_ALLSONG));
-        mPagerAdapter.addFragment(new SongListFragment(SongListFragment.CLASS_FAVORITE));
         mPagerAdapter.addFragment(new SongListFragment(SongListFragment.CLASS_LIHO));
         mPagerAdapter.addFragment(new SongListFragment(SongListFragment.CLASS_SONJAIN));
         mPagerAdapter.addFragment(new SongListFragment(SongListFragment.CLASS_FLASH));
