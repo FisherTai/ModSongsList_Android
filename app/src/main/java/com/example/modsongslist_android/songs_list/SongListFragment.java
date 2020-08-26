@@ -1,11 +1,8 @@
 package com.example.modsongslist_android.songs_list;
 
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -18,7 +15,6 @@ import com.example.modsongslist_android.R;
 import com.example.modsongslist_android.model.RepositoryCallBack;
 import com.example.modsongslist_android.model.Song;
 import com.example.modsongslist_android.model.SongRepository;
-import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +40,6 @@ public class SongListFragment extends BaseFragment {
 
     private RecyclerView rv;
     private SearchView sv;
-    private MaterialToolbar mToolbar;
 
     private SongAdapter songAdapter;
     private int current;
@@ -68,20 +63,20 @@ public class SongListFragment extends BaseFragment {
 
     @Override
     protected int getLayout() {
+        Log.d(TAG, "onCreateView: " + getTitle(current));
         return R.layout.fragment_main;
     }
 
     @Override
     protected void findView() {
+        super.findView();
         rv = rootView.findViewById(R.id.song_listview);
-        mToolbar = getActivity().findViewById(R.id.toolbar);
         sv = getActivity().findViewById(R.id.search_bar);
     }
 
     @Override
     protected void initLayoutView() {
         setRecyclerView(current);
-        setToolBar();
     }
 
     private void setRecyclerView(int current) {
@@ -149,17 +144,24 @@ public class SongListFragment extends BaseFragment {
         if (current == CLASS_KSONG) {
             currentList = SongRepository.getINSTANCE().getKsongList();
             setSongAdapter(currentList, current);
-            return;
         }
 
     }
 
-
-    private void setSongAdapter(ArrayList<Song> currentList , int current) {
+    private void setSongAdapter(ArrayList<Song> currentList, int current) {
         songAdapter = new SongAdapter(currentList, current);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(songAdapter);
     }
+
+
+    @Override
+    public void onResume() {
+        //在onResume操作可確保傳入ToolBar的會是ViewPager當前頁面
+        setToolBar();
+        super.onResume();
+    }
+
 
     private void setToolBar() {
         setSerchView();
@@ -191,30 +193,30 @@ public class SongListFragment extends BaseFragment {
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG, "onQueryTextSubmit: " +query);
+                Log.d(TAG, "onQueryTextSubmit: " + query);
 
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d(TAG, "onQueryTextChange: "+newText);
-
-                if(TextUtils.isEmpty(newText.trim())){
+                Log.d(TAG, "onQueryTextChange: " + newText + " on " + getTitle(current));
+                if (TextUtils.isEmpty(newText.trim())) {
                     songAdapter.changeList(list, current);
                     return false;
                 }
 
                 ArrayList<Song> searchList = new ArrayList<>();
-                char newWord = newText.charAt(newText.length()-1);
+                char newWord = newText.charAt(newText.length() - 1);
                 boolean isEng = String.valueOf(newWord).matches("[a-zA-Z]");
 
                 for (Song song : list) {
                     if (song.getName().contains(newText) || song.getSinger().contains(newText)) {
                         searchList.add(song);
+                        continue;
                     }
                     //如果不是英文字的話就不做大小寫轉換
-                    if(!isEng){
+                    if (!isEng) {
                         continue;
                     }
 

@@ -15,7 +15,6 @@ public class MainActivity extends BaseActivity {
     private NavigationView mNavigationView;
     private DrawerLayout mDrawerLayout;
     private BottomNavigationView mBottomNavigationView;
-    private MaterialToolbar mToolbar;
     private int currentSelected = 0;
 
     @Override
@@ -25,7 +24,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void findView() {
-        mToolbar = findViewById(R.id.toolbar);
+        super.findView();
         mNavigationView = findViewById(R.id.nav_view);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mBottomNavigationView = findViewById(R.id.bnv_bottom);

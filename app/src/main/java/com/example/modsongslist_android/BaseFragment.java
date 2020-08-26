@@ -9,11 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.orhanobut.logger.Logger;
+
+import java.util.Objects;
 
 public abstract class BaseFragment extends Fragment {
     private static final String TAG = "BaseFragment";
     protected View rootView;
+    protected MaterialToolbar mToolbar;
 
     @Nullable
     @Override
@@ -28,7 +32,9 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getLayout();
 
-    protected abstract void findView();
+    protected  void findView(){
+        mToolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+    }
 
     protected abstract void initLayoutView();
 }
