@@ -12,9 +12,10 @@ android {
         versionName "1.2.0"
 
         manifestPlaceholders = [
-                appname      : "KOD歡唱吧",
-                lanchername  : "KOD歡唱吧",
-                appicon      : "logo",
+                appname    : "KOD歡唱吧",
+                lanchername: "KOD歡唱吧",
+                appicon    : "ic_launcher",
+                roundIcon  : "ic_launcher_round",
         ]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
