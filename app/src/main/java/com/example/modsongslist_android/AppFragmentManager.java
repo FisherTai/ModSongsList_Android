@@ -1,4 +1,4 @@
-package com.example.modsongslist_android.songs_list;
+package com.example.modsongslist_android;
 
 
 import androidx.annotation.NonNull;
@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.modsongslist_android.BuildConfig;
+import com.example.modsongslist_android.songs_list.SongListFragment;
+
+import java.util.Map;
 
 
 /**
@@ -16,6 +19,10 @@ import com.example.modsongslist_android.BuildConfig;
 public class AppFragmentManager {
 
     private static AppFragmentManager instance;
+
+    private Map<Integer, SongListFragment> mFragmentContainer;
+
+
 
     private AppFragmentManager() {
     }
@@ -42,5 +49,14 @@ public class AppFragmentManager {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(frameId, fragment).commit();
     }
+
+    public void setFragmentInContainer(int id,SongListFragment fragment){
+        mFragmentContainer.put(id,fragment);
+    }
+
+    public SongListFragment getFragmentByID(int id) {
+        return mFragmentContainer.get(id);
+    }
+
 
 }

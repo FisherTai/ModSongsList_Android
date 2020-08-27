@@ -2,12 +2,9 @@ package com.example.modsongslist_android;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 
-import com.example.modsongslist_android.songs_list.AppFragmentManager;
 import com.example.modsongslist_android.songs_list.SongListFragment;
 import com.example.modsongslist_android.songs_list.SongViewPagerFragment;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -37,7 +34,7 @@ public class MainActivity extends BaseActivity {
     protected void initLayoutView() {
         setBottomBar();
         initDarwerBar();
-        mFragment = MyUtil.isOrignal ? new SongListFragment(SongListFragment.CLASS_ALLSONG) : new SongViewPagerFragment();
+        mFragment = MyUtil.isOrignal ? SongListFragment.getInstance(SongListFragment.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
         AppFragmentManager.getInstance().addFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);
     }
 
@@ -49,11 +46,11 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 //全部
                 case R.id.item_allSong:
-                    mFragment = MyUtil.isOrignal ? new SongListFragment(SongListFragment.CLASS_ALLSONG) : new SongViewPagerFragment();
+                    mFragment = MyUtil.isOrignal ? SongListFragment.getInstance(SongListFragment.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
                     break;
                 //最爱
                 case R.id.item_favorite:
-                    mFragment = new SongListFragment(SongListFragment.CLASS_FAVORITE);
+                    mFragment = SongListFragment.getInstance(SongListFragment.CLASS_FAVORITE);
                     break;
             }
             AppFragmentManager.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);
@@ -88,31 +85,31 @@ public class MainActivity extends BaseActivity {
                     switch (menuItem.getItemId()) {
                         //麗厚廳
                         case R.id.item_class1:
-                            mFragment = new SongListFragment(SongListFragment.CLASS_LIHO);
+                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_LIHO);
                             break;
                         //尚讚K歌王
                         case R.id.item_class2:
-                            mFragment = new SongListFragment(SongListFragment.CLASS_SONJAIN);
+                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_SONJAIN);
                             break;
                         //閃亮大歌廳
                         case R.id.item_class3:
-                            mFragment = new SongListFragment(SongListFragment.CLASS_FLASH);
+                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_FLASH);
                             break;
                         //好歌大家唱
                         case R.id.item_class4:
-                            mFragment = new SongListFragment(SongListFragment.CLASS_GOODSONG);
+                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_GOODSONG);
                             break;
                         //歡唱K歌館
                         case R.id.item_class5:
-                            mFragment = new SongListFragment(SongListFragment.CLASS_HUANGCHUN);
+                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_HUANGCHUN);
                             break;
                         //美華卡拉吧
                         case R.id.item_class6:
-                            mFragment = new SongListFragment(SongListFragment.CLASS_MEIHUA);
+                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_MEIHUA);
                             break;
                         //K歌大聯盟
                         case R.id.item_class7:
-                            mFragment = new SongListFragment(SongListFragment.CLASS_KSONG);
+                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_KSONG);
                             break;
                     }
                     AppFragmentManager.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);

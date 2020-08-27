@@ -37,4 +37,8 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected abstract void initLayoutView();
+
+    public static BaseFragment getInstance() {
+        return null;
+    }
 }

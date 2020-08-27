@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.modsongslist_android.AppFragmentManager;
 import com.example.modsongslist_android.BaseFragment;
 import com.example.modsongslist_android.MyUtil;
 import com.example.modsongslist_android.R;
@@ -49,8 +50,17 @@ public class SongListFragment extends BaseFragment {
      *
      * @param id
      */
-    public SongListFragment(int id) {
+    private SongListFragment(int id) {
         current = id;
+        AppFragmentManager.getInstance().setFragmentInContainer(id,this);
+    }
+
+    public static SongListFragment getInstance(int id){
+        if(AppFragmentManager.getInstance().getFragmentByID(id) == null){
+            new SongListFragment(id);
+        }
+
+        return AppFragmentManager.getInstance().getFragmentByID(id);
     }
 
 
