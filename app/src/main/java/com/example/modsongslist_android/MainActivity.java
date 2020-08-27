@@ -2,7 +2,9 @@ package com.example.modsongslist_android;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
+import com.example.modsongslist_android.songs_list.AppFragmentManager;
 import com.example.modsongslist_android.songs_list.SongListFragment;
 import com.example.modsongslist_android.songs_list.SongViewPagerFragment;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -13,8 +15,9 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private NavigationView mNavigationView;
-//    private DrawerLayout mDrawerLayout;
+    private DrawerLayout mDrawerLayout;
     private BottomNavigationView mBottomNavigationView;
+    private BaseFragment mFragment;
     private int currentSelected = 0;
 
     @Override
@@ -25,8 +28,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void findView() {
         super.findView();
-//        mNavigationView = findViewById(R.id.nav_view);
-//        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mNavigationView = findViewById(R.id.nav_view);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         mBottomNavigationView = findViewById(R.id.bnv_bottom);
     }
 
@@ -34,9 +37,8 @@ public class MainActivity extends BaseActivity {
     protected void initLayoutView() {
         setBottomBar();
         initDarwerBar();
-//        setupDrawerContent(mNavigationView);
-        SongViewPagerFragment viewPagerFragment = new SongViewPagerFragment();
-        MyUtil.getInstance().addFragmentToActivity(getSupportFragmentManager(), viewPagerFragment, R.id.fragment_conten);
+        mFragment = MyUtil.isOrignal ? new SongListFragment(SongListFragment.CLASS_ALLSONG) : new SongViewPagerFragment();
+        AppFragmentManager.getInstance().addFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);
     }
 
     private void setBottomBar() {
@@ -47,17 +49,15 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 //全部
                 case R.id.item_allSong:
-                    SongViewPagerFragment viewPagerFragment = new SongViewPagerFragment();
-                    MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), viewPagerFragment, R.id.fragment_conten);
-                    setNavItemChecked();
+                    mFragment = MyUtil.isOrignal ? new SongListFragment(SongListFragment.CLASS_ALLSONG) : new SongViewPagerFragment();
                     break;
                 //最爱
                 case R.id.item_favorite:
-                    SongListFragment favoriteFragment = new SongListFragment(SongListFragment.CLASS_FAVORITE);
-                    MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), favoriteFragment, R.id.fragment_conten);
-                    setNavItemChecked();
+                    mFragment = new SongListFragment(SongListFragment.CLASS_FAVORITE);
                     break;
             }
+            AppFragmentManager.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);
+            setNavItemChecked();
             return true;
         });
     }
@@ -69,60 +69,60 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void initDarwerBar() {
-//        mToolbar.setNavigationIcon(R.mipmap.logo);
-//        mToolbar.setLogo(R.mipmap.logo);
-//        mToolbar.setNavigationOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
+
+        if (MyUtil.isOrignal) {
+            mToolbar.setNavigationIcon(R.drawable.ic_menu);
+            mToolbar.setNavigationOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
+            setupDrawerContent(mNavigationView);
+        } else {
+            mDrawerLayout.removeView(mNavigationView);
+            mToolbar.setLogo(R.mipmap.logo);
+        }
     }
 
-//    private void setupDrawerContent(NavigationView navigationView) {
-//        navigationView.setNavigationItemSelectedListener(
-//                menuItem -> {
-//                    //移除先前點擊過的狀態
-//                    setNavItemChecked();
-//                    switch (menuItem.getItemId()) {
-//                        //麗厚廳
-//                        case R.id.item_class1:
-//                            SongListFragment sub1Fragment = new SongListFragment(SongListFragment.CLASS_LIHO);
-//                            MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), sub1Fragment, R.id.fragment_conten);
-//                            break;
-//                        //尚讚K歌王
-//                        case R.id.item_class2:
-//                            SongListFragment sub2Fragment = new SongListFragment(SongListFragment.CLASS_SONJAIN);
-//                            MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), sub2Fragment, R.id.fragment_conten);
-//                            break;
-//                        //閃亮大歌廳
-//                        case R.id.item_class3:
-//                            SongListFragment sub3Fragment = new SongListFragment(SongListFragment.CLASS_FLASH);
-//                            MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), sub3Fragment, R.id.fragment_conten);
-//                            break;
-//                        //好歌大家唱
-//                        case R.id.item_class4:
-//                            SongListFragment sub4Fragment = new SongListFragment(SongListFragment.CLASS_GOODSONG);
-//                            MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), sub4Fragment, R.id.fragment_conten);
-//                            break;
-//                        //歡唱K歌館
-//                        case R.id.item_class5:
-//                            SongListFragment sub5Fragment = new SongListFragment(SongListFragment.CLASS_HUANGCHUN);
-//                            MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), sub5Fragment, R.id.fragment_conten);
-//                            break;
-//                        //美華卡拉吧
-//                        case R.id.item_class6:
-//                            SongListFragment sub6Fragment = new SongListFragment(SongListFragment.CLASS_MEIHUA);
-//                            MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), sub6Fragment, R.id.fragment_conten);
-//                            break;
-//                        //K歌大聯盟
-//                        case R.id.item_class7:
-//                            SongListFragment sub7Fragment = new SongListFragment(SongListFragment.CLASS_KSONG);
-//                            MyUtil.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), sub7Fragment, R.id.fragment_conten);
-//                            break;
-//                    }
-//                    // Close the navigation drawer when an item is selected.
-//                    currentSelected = menuItem.getItemId();
-//                    menuItem.setChecked(true);
-//                    mDrawerLayout.closeDrawers();
-//                    return true;
-//                });
-//    }
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                menuItem -> {
+                    //移除先前點擊過的狀態
+                    setNavItemChecked();
+                    switch (menuItem.getItemId()) {
+                        //麗厚廳
+                        case R.id.item_class1:
+                            mFragment = new SongListFragment(SongListFragment.CLASS_LIHO);
+                            break;
+                        //尚讚K歌王
+                        case R.id.item_class2:
+                            mFragment = new SongListFragment(SongListFragment.CLASS_SONJAIN);
+                            break;
+                        //閃亮大歌廳
+                        case R.id.item_class3:
+                            mFragment = new SongListFragment(SongListFragment.CLASS_FLASH);
+                            break;
+                        //好歌大家唱
+                        case R.id.item_class4:
+                            mFragment = new SongListFragment(SongListFragment.CLASS_GOODSONG);
+                            break;
+                        //歡唱K歌館
+                        case R.id.item_class5:
+                            mFragment = new SongListFragment(SongListFragment.CLASS_HUANGCHUN);
+                            break;
+                        //美華卡拉吧
+                        case R.id.item_class6:
+                            mFragment = new SongListFragment(SongListFragment.CLASS_MEIHUA);
+                            break;
+                        //K歌大聯盟
+                        case R.id.item_class7:
+                            mFragment = new SongListFragment(SongListFragment.CLASS_KSONG);
+                            break;
+                    }
+                    AppFragmentManager.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);
+                    // Close the navigation drawer when an item is selected.
+                    currentSelected = menuItem.getItemId();
+                    menuItem.setChecked(true);
+                    mDrawerLayout.closeDrawers();
+                    return true;
+                });
+    }
 
 
 }

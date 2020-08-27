@@ -45,7 +45,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
         holder.id.setText(song.getNumber());
         holder.name.setText(song.getName());
         holder.sClass.setText(song.getSong_class());
-//        holder.CharCount.setText(song.getChar_count());
         holder.singer.setText(song.getSinger());
         holder.language.setText(song.getLanguage());
         holder.addSong.setOnClickListener(v -> {
@@ -67,7 +66,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
             notifyItemChanged(position);
 
             if (current == SongListFragment.CLASS_FAVORITE) {
-                //這裡傳入List的remove直接將物件傳入，省的處理position的邏輯
+                //這裡直接將物件傳入remove，省的處理position的邏輯
                 injectionSongList.remove(song);
                 Log.d(TAG, "remove self list position:" + position);
                 notifyItemRemoved(position);

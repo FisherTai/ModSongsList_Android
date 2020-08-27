@@ -32,16 +32,45 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 
     //MVVM
     dataBinding { enabled true }
+
+
     compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
 
+    flavorDimensions "default"
+    productFlavors {
+        //帶ViewPager版本
+        second {
+            applicationId "com.example.modsongslist_android.second"
+            manifestPlaceholders = [
+                    appname    : "KOD歡唱吧2",
+                    lanchername: "KOD歡唱吧2",
+                    appicon    : "ic_launcher",
+                    roundIcon  : "ic_launcher_round",
+            ]
+        }
+        //原本的配置
+        original {
+            applicationId "com.example.modsongslist_android.original"
+            manifestPlaceholders = [
+                    appname    : "KOD歡唱吧",
+                    lanchername: "KOD歡唱吧",
+                    appicon    : "ic_launcher",
+                    roundIcon  : "ic_launcher_round",
+            ]
+        }
 
+    }
 }
 
 dependencies {

@@ -17,6 +17,11 @@ import java.util.List;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+/**
+ * 處理資料來源的類別
+ */
+
+
 public class SongRepository {
     //存放歌單的Json字串
     private String songListStr;

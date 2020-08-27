@@ -18,6 +18,8 @@ import java.io.InputStreamReader;
 public class MyUtil {
     private static final String TAG = "MyUtil";
     private static MyUtil instance;
+    public  static boolean isOrignal = BuildConfig.FLAVOR.equals("original");
+
 
     private MyUtil() {
     }
@@ -28,21 +30,6 @@ public class MyUtil {
             instance = new MyUtil();
         }
         return instance;
-    }
-
-    public void addFragmentToActivity(@NonNull FragmentManager fragmentManager,
-                                      @NonNull Fragment fragment,
-                                      int frameId) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(frameId, fragment).commit();
-    }
-
-
-    public void replaceFragmentToActivity(@NonNull FragmentManager fragmentManager,
-                                          @NonNull Fragment fragment,
-                                          int frameId) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(frameId, fragment).commit();
     }
 
 
