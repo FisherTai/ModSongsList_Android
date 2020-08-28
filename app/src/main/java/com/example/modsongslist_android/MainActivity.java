@@ -35,7 +35,8 @@ public class MainActivity extends BaseActivity {
         setBottomBar();
         initDarwerBar();
         mFragment = MyUtil.isOrignal ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
-        AppFragmentManager.getInstance().addFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
+        showFragment(mFragment,mFragment.getCurrent());
+//        AppFragmentManager.getInstance().addFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
     }
 
     private void setBottomBar() {
@@ -52,7 +53,8 @@ public class MainActivity extends BaseActivity {
                     mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_FAVORITE);
                     break;
             }
-            AppFragmentManager.getInstance().replaceFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
+            showFragment(mFragment,mFragment.getCurrent());
+//            AppFragmentManager.getInstance().replaceFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
             return true;
         });
     }
@@ -112,7 +114,8 @@ public class MainActivity extends BaseActivity {
                     }
                     //同時取消底部導航的選中顏色
                     mBottomNavigationView.getMenu().setGroupCheckable(0,false,true);
-                    AppFragmentManager.getInstance().replaceFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
+                    showFragment(mFragment,mFragment.getCurrent());
+//                    AppFragmentManager.getInstance().replaceFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
                     // Close the navigation drawer when an item is selected.
                     currentSelected = menuItem.getItemId();
                     menuItem.setChecked(true);

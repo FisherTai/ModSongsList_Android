@@ -32,7 +32,6 @@ public class SongListFragment extends BaseFragment {
     private SearchView sv;
 
     private SongAdapter songAdapter;
-    private int current;
 
     /**
      * 傳入分類的ID標記
@@ -295,5 +294,6 @@ public class SongListFragment extends BaseFragment {
                 return ALL_LIST;
         }
     }
+
 
 }

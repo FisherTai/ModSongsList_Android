@@ -18,6 +18,7 @@ public abstract class BaseFragment extends Fragment {
     private static final String TAG = "BaseFragment";
     protected View rootView;
     protected MaterialToolbar mToolbar;
+    protected int current;
 
     @Nullable
     @Override
@@ -40,5 +41,9 @@ public abstract class BaseFragment extends Fragment {
 
     public static BaseFragment getInstance() {
         return null;
+    }
+
+    public int getCurrent() {
+        return current;
     }
 }

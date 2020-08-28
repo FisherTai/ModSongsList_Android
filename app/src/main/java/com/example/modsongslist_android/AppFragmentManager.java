@@ -48,21 +48,20 @@ public class AppFragmentManager {
         return instance;
     }
 
-    public void addFragmentToActivity(@NonNull FragmentManager fragmentManager,
+    public void addFragmentToActivity(@NonNull FragmentManager mFragmentManager,
                                       @NonNull Fragment fragment,
                                       int frameId) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(frameId, fragment).commit();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.add(frameId, fragment).commit();
     }
 
 
-    public void replaceFragmentToActivity(@NonNull FragmentManager fragmentManager,
+    public void replaceFragmentToActivity(@NonNull FragmentManager mFragmentManager,
                                           @NonNull Fragment fragment,
                                           int frameId) {
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(frameId, fragment);
-        fragmentTransaction.commit();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(frameId, fragment).commit();
     }
 
     public void setFragmentInContainer(int id,BaseFragment fragment){
