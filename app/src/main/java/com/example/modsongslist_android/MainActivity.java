@@ -34,27 +34,25 @@ public class MainActivity extends BaseActivity {
     protected void initLayoutView() {
         setBottomBar();
         initDarwerBar();
-        mFragment = MyUtil.isOrignal ? SongListFragment.getInstance(SongListFragment.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
-        AppFragmentManager.getInstance().addFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);
+        mFragment = MyUtil.isOrignal ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
+        AppFragmentManager.getInstance().addFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
     }
 
     private void setBottomBar() {
 
-        mBottomNavigationView.setSelectedItemId(R.id.item_allSong);
         mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-
+            mBottomNavigationView.getMenu().setGroupCheckable(0,true,true); //(1.操作的Group，2.選中後是否被標記 // 3.false為可複選)
             switch (item.getItemId()) {
                 //全部
                 case R.id.item_allSong:
-                    mFragment = MyUtil.isOrignal ? SongListFragment.getInstance(SongListFragment.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
+                    mFragment = MyUtil.isOrignal ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
                     break;
                 //最爱
                 case R.id.item_favorite:
-                    mFragment = SongListFragment.getInstance(SongListFragment.CLASS_FAVORITE);
+                    mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_FAVORITE);
                     break;
             }
-            AppFragmentManager.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);
-            setNavItemChecked();
+            AppFragmentManager.getInstance().replaceFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
             return true;
         });
     }
@@ -85,34 +83,36 @@ public class MainActivity extends BaseActivity {
                     switch (menuItem.getItemId()) {
                         //麗厚廳
                         case R.id.item_class1:
-                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_LIHO);
+                            mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_LIHO);
                             break;
                         //尚讚K歌王
                         case R.id.item_class2:
-                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_SONJAIN);
+                            mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_SONJAIN);
                             break;
                         //閃亮大歌廳
                         case R.id.item_class3:
-                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_FLASH);
+                            mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_FLASH);
                             break;
                         //好歌大家唱
                         case R.id.item_class4:
-                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_GOODSONG);
+                            mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_GOODSONG);
                             break;
                         //歡唱K歌館
                         case R.id.item_class5:
-                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_HUANGCHUN);
+                            mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_HUANGCHUN);
                             break;
                         //美華卡拉吧
                         case R.id.item_class6:
-                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_MEIHUA);
+                            mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_MEIHUA);
                             break;
                         //K歌大聯盟
                         case R.id.item_class7:
-                            mFragment = SongListFragment.getInstance(SongListFragment.CLASS_KSONG);
+                            mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_KSONG);
                             break;
                     }
-                    AppFragmentManager.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);
+                    //同時取消底部導航的選中顏色
+                    mBottomNavigationView.getMenu().setGroupCheckable(0,false,true);
+                    AppFragmentManager.getInstance().replaceFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
                     // Close the navigation drawer when an item is selected.
                     currentSelected = menuItem.getItemId();
                     menuItem.setChecked(true);
