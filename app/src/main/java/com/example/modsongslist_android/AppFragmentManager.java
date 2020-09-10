@@ -68,20 +68,11 @@ public class AppFragmentManager {
         mFragmentContainer.put(id,fragment);
     }
 
-    public SongListFragment getFragmentByID(int id) {
+    public BaseFragment getFragmentByID(int id) {
         try{
-            return (SongListFragment)mFragmentContainer.get(id);
+            return mFragmentContainer.get(id);
         }catch (Exception e){
             Log.e(TAG,"getFragmentByID:",e);
-        }
-        return null;
-    }
-
-    public SongViewPagerFragment getViewPagerFragmentByID(int id) {
-        try{
-            return (SongViewPagerFragment)mFragmentContainer.get(id);
-        }catch (Exception e){
-            Log.e(TAG,"getViewPagerFragmentByID:",e);
         }
         return null;
     }

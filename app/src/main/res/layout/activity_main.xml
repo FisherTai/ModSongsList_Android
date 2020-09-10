@@ -50,8 +50,7 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header"
-            android:background="@color/ed3"
-            app:menu="@menu/drawer_menu" />
+            android:background="@color/ed3" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

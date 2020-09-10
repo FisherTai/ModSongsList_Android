@@ -48,7 +48,7 @@ public class SongListFragment extends BaseFragment {
             new SongListFragment(id);
         }
 
-        return AppFragmentManager.getInstance().getFragmentByID(id);
+        return (SongListFragment)AppFragmentManager.getInstance().getFragmentByID(id);
     }
 
 

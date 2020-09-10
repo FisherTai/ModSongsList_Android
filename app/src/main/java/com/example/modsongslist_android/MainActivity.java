@@ -1,5 +1,11 @@
 package com.example.modsongslist_android;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -7,6 +13,7 @@ import com.example.modsongslist_android.songs_list.SongListFragment;
 import com.example.modsongslist_android.songs_list.SongViewPagerFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -16,6 +23,7 @@ public class MainActivity extends BaseActivity {
     private BottomNavigationView mBottomNavigationView;
     private BaseFragment mFragment;
     private int currentSelected = 0;
+    final private int SETTING_STYLE = 111;
 
     @Override
     protected int getLayout() {
@@ -35,14 +43,14 @@ public class MainActivity extends BaseActivity {
         setBottomBar();
         initDarwerBar();
         mFragment = MyUtil.isOrignal ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
-        showFragment(mFragment,mFragment.getCurrent());
+        showFragment(mFragment, mFragment.getCurrent());
 //        AppFragmentManager.getInstance().addFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
     }
 
     private void setBottomBar() {
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            mBottomNavigationView.getMenu().setGroupCheckable(0,true,true); //(1.操作的Group，2.選中後是否被標記 // 3.false為可複選)
+            mBottomNavigationView.getMenu().setGroupCheckable(0, true, true); //(1.操作的Group，2.選中後是否被標記 // 3.false為可複選)
             switch (item.getItemId()) {
                 //全部
                 case R.id.item_allSong:
@@ -53,7 +61,7 @@ public class MainActivity extends BaseActivity {
                     mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_FAVORITE);
                     break;
             }
-            showFragment(mFragment,mFragment.getCurrent());
+            showFragment(mFragment, mFragment.getCurrent());
 //            AppFragmentManager.getInstance().replaceFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
             return true;
         });
@@ -66,15 +74,16 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void initDarwerBar() {
-
-        if (MyUtil.isOrignal) {
-            mToolbar.setNavigationIcon(R.drawable.ic_menu);
-            mToolbar.setNavigationOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
-            setupDrawerContent(mNavigationView);
-        } else {
-            mDrawerLayout.removeView(mNavigationView);
-            mToolbar.setLogo(R.mipmap.logo);
-        }
+//        if (MyUtil.isOrignal) {
+        mNavigationView.inflateMenu(R.menu.drawer_menu);
+        mToolbar.setNavigationIcon(R.drawable.ic_menu);
+        mToolbar.setNavigationOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
+        setupDrawerContent(mNavigationView);
+//        } else {
+//            mDrawerLayout.removeView(mNavigationView);
+        mToolbar.setLogo(R.mipmap.logo);
+//        }
+        mNavigationView.getMenu().add(11, SETTING_STYLE, 0, "樣式設定").setIcon(R.drawable.ic_setting_style);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -111,10 +120,22 @@ public class MainActivity extends BaseActivity {
                         case R.id.item_class7:
                             mFragment = SongListFragment.getInstance(AppFragmentManager.CLASS_KSONG);
                             break;
+                        case SETTING_STYLE:
+                            final String[] items = {"樣式1", "樣式2"};
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setTitle("樣式選擇")
+                                    .setItems(items, (dialogInterface, i) -> {
+                                        if (items[i].equals("樣式1")) {
+
+                                        }
+                                        Snackbar.make(findViewById(android.R.id.content), "選擇的樣式要重新啟動才會生效", Snackbar.LENGTH_SHORT).show();
+                                    })
+                                    .setNegativeButton("取消",null)
+                                    .show();
                     }
                     //同時取消底部導航的選中顏色
-                    mBottomNavigationView.getMenu().setGroupCheckable(0,false,true);
-                    showFragment(mFragment,mFragment.getCurrent());
+                    mBottomNavigationView.getMenu().setGroupCheckable(0, false, true);
+                    showFragment(mFragment, mFragment.getCurrent());
 //                    AppFragmentManager.getInstance().replaceFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
                     // Close the navigation drawer when an item is selected.
                     currentSelected = menuItem.getItemId();
@@ -122,6 +143,12 @@ public class MainActivity extends BaseActivity {
                     mDrawerLayout.closeDrawers();
                     return true;
                 });
+    }
+
+
+    private void openSetting() {
+
+
     }
 
 

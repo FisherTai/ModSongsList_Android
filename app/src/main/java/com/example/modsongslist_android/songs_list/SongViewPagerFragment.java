@@ -23,7 +23,7 @@ public class SongViewPagerFragment extends BaseFragment {
         if(AppFragmentManager.getInstance().getFragmentByID(AppFragmentManager.SONG_VIEW_PAGER) == null){
             AppFragmentManager.getInstance().setFragmentInContainer(AppFragmentManager.SONG_VIEW_PAGER,new SongViewPagerFragment());
         }
-        return AppFragmentManager.getInstance().getViewPagerFragmentByID(AppFragmentManager.SONG_VIEW_PAGER);
+        return (SongViewPagerFragment)AppFragmentManager.getInstance().getFragmentByID(AppFragmentManager.SONG_VIEW_PAGER);
     }
 
     @Override
