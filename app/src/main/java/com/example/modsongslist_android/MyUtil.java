@@ -19,7 +19,7 @@ public class MyUtil {
     private static final String TAG = "MyUtil";
     private static MyUtil instance;
     public  static boolean isOrignal = BuildConfig.FLAVOR.equals("original");
-
+    public  static boolean isReset = false;
 
     private MyUtil() {
     }

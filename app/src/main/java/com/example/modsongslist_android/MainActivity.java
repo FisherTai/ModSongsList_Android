@@ -1,10 +1,6 @@
 package com.example.modsongslist_android;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.view.ContextMenu;
-import android.view.MenuItem;
-import android.view.View;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -24,6 +20,7 @@ public class MainActivity extends BaseActivity {
     private BaseFragment mFragment;
     private int currentSelected = 0;
     final private int SETTING_STYLE = 111;
+    private boolean isReset = false;
 
     @Override
     protected int getLayout() {
@@ -40,9 +37,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initLayoutView() {
+        isReset = true;
         setBottomBar();
         initDarwerBar();
-        mFragment = MyUtil.isOrignal ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
+        mFragment = (getStyle().equals("Type1") && isReset) ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
         showFragment(mFragment, mFragment.getCurrent());
 //        AppFragmentManager.getInstance().addFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
     }
@@ -54,7 +52,7 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 //全部
                 case R.id.item_allSong:
-                    mFragment = MyUtil.isOrignal ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
+                    mFragment = (getStyle().equals("Type1") && isReset) ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
                     break;
                 //最爱
                 case R.id.item_favorite:
@@ -80,9 +78,10 @@ public class MainActivity extends BaseActivity {
         mToolbar.setNavigationOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
         setupDrawerContent(mNavigationView);
 //        } else {
-//            mDrawerLayout.removeView(mNavigationView);
-        mToolbar.setLogo(R.mipmap.logo);
+//        mDrawerLayout.removeView(mNavigationView);
+//        mToolbar.setLogo(R.mipmap.logo);
 //        }
+
         mNavigationView.getMenu().add(11, SETTING_STYLE, 0, "樣式設定").setIcon(R.drawable.ic_setting_style);
     }
 
@@ -126,11 +125,13 @@ public class MainActivity extends BaseActivity {
                             builder.setTitle("樣式選擇")
                                     .setItems(items, (dialogInterface, i) -> {
                                         if (items[i].equals("樣式1")) {
-
+                                            setStyle("Type1");
+                                        } else {
+                                            setStyle("Type2");
                                         }
                                         Snackbar.make(findViewById(android.R.id.content), "選擇的樣式要重新啟動才會生效", Snackbar.LENGTH_SHORT).show();
                                     })
-                                    .setNegativeButton("取消",null)
+                                    .setNegativeButton("取消", null)
                                     .show();
                     }
                     //同時取消底部導航的選中顏色
@@ -146,10 +147,14 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    private void openSetting() {
-
-
+    private void setStyle(String type) {
+        getSharedPreferences("setting", MODE_PRIVATE).
+                edit().putString("style", type).apply();
+        isReset = false;
     }
 
+    private String getStyle() {
+        return getSharedPreferences("setting", MODE_PRIVATE).getString("style", "Type1");
+    }
 
 }
