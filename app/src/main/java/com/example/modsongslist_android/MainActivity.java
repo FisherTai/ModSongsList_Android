@@ -19,8 +19,8 @@ public class MainActivity extends BaseActivity {
     private BottomNavigationView mBottomNavigationView;
     private BaseFragment mFragment;
     private int currentSelected = 0;
+    private String currentType;
     final private int SETTING_STYLE = 111;
-    private boolean isReset = false;
 
     @Override
     protected int getLayout() {
@@ -37,10 +37,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initLayoutView() {
-        isReset = true;
+        currentType = getSharedPreferences("setting", MODE_PRIVATE).getString("style", "Type1");
         setBottomBar();
         initDarwerBar();
-        mFragment = (getStyle().equals("Type1") && isReset) ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
+        mFragment =  currentType.equals("Type1") ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
         showFragment(mFragment, mFragment.getCurrent());
 //        AppFragmentManager.getInstance().addFragmentToActivity(mFragmentManager, mFragment, R.id.fragment_conten);
     }
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 //全部
                 case R.id.item_allSong:
-                    mFragment = (getStyle().equals("Type1") && isReset) ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
+                    mFragment =  currentType.equals("Type1") ? SongListFragment.getInstance(AppFragmentManager.CLASS_ALLSONG) : SongViewPagerFragment.getInstance();
                     break;
                 //最爱
                 case R.id.item_favorite:
@@ -129,7 +129,8 @@ public class MainActivity extends BaseActivity {
                                         } else {
                                             setStyle("Type2");
                                         }
-                                        Snackbar.make(findViewById(android.R.id.content), "選擇的樣式要重新啟動才會生效", Snackbar.LENGTH_SHORT).show();
+                                        Snackbar.make(findViewById(android.R.id.content), "選擇的樣式要重新啟動才會生效", Snackbar.LENGTH_SHORT).
+                                                setAction("ok",null).show();
                                     })
                                     .setNegativeButton("取消", null)
                                     .show();
@@ -150,11 +151,6 @@ public class MainActivity extends BaseActivity {
     private void setStyle(String type) {
         getSharedPreferences("setting", MODE_PRIVATE).
                 edit().putString("style", type).apply();
-        isReset = false;
-    }
-
-    private String getStyle() {
-        return getSharedPreferences("setting", MODE_PRIVATE).getString("style", "Type1");
     }
 
 }
