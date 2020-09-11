@@ -11,6 +11,7 @@
     <string name="hunagchun">歡唱K歌館</string>
     <string name="meihua">美華卡拉吧</string>
     <string name="ksong">K歌大聯盟</string>
+    <string name="new_song">新增歌曲</string>
 
     <string-array name="song_class_array">
         <item>全部</item>

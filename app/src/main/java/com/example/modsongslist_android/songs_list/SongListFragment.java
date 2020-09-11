@@ -42,11 +42,11 @@ public class SongListFragment extends BaseFragment {
      */
     private SongListFragment(int id) {
         current = id;
-        AppFragmentManager.getInstance().setFragmentInContainer(id,this);
+        AppFragmentManager.getInstance().setFragmentInContainer(id, this);
     }
 
-    public static SongListFragment getInstance(int id){
-        if(AppFragmentManager.getInstance().getFragmentByID(id) == null){
+    public static SongListFragment getInstance(int id) {
+        if (AppFragmentManager.getInstance().getFragmentByID(id) == null) {
             new SongListFragment(id);
         }
 
@@ -146,6 +146,12 @@ public class SongListFragment extends BaseFragment {
             setSongAdapter(currentList, current);
         }
 
+        if(current==AppFragmentManager.NEW_SONG){
+            currentList = SongRepository.getINSTANCE().getNewSongList();
+            setSongAdapter(currentList,current);
+            return;
+        }
+
     }
 
     private void setSongAdapter(ArrayList<Song> currentList, int current) {
@@ -159,7 +165,7 @@ public class SongListFragment extends BaseFragment {
     public void onResume() {
         //在onResume操作可確保傳入ToolBar的會是ViewPager當前頁面
         setToolBar();
-        if(songAdapter != null && MainActivity.currentType.equals("Type2")){
+        if (songAdapter != null && MainActivity.currentType.equals("Type2")) {
             songAdapter.notifyDataSetChanged();
         }
         super.onResume();
@@ -270,6 +276,9 @@ public class SongListFragment extends BaseFragment {
             case AppFragmentManager.CLASS_KSONG:
                 title = getResources().getString(R.string.ksong);
                 break;
+            case AppFragmentManager.NEW_SONG:
+                title = getResources().getString(R.string.new_song);
+                break;
         }
         return title;
     }
@@ -294,6 +303,8 @@ public class SongListFragment extends BaseFragment {
                 return SongRepository.getINSTANCE().getMeihuaList();
             case AppFragmentManager.CLASS_KSONG:
                 return SongRepository.getINSTANCE().getKsongList();
+            case AppFragmentManager.NEW_SONG:
+                return SongRepository.getINSTANCE().getNewSongList();
             default:
                 Toast.makeText(getContext(), "篩選全部的歌曲", Toast.LENGTH_SHORT).show();
                 return ALL_LIST;

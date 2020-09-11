@@ -36,6 +36,7 @@ public class AppFragmentManager {
     final public static int CLASS_MEIHUA = 18; //美華卡拉吧
     final public static int CLASS_KSONG = 19;//K歌大聯盟
     final public static int SONG_VIEW_PAGER = 20;
+    final public static int NEW_SONG = 21; //新歌清單
 
     private AppFragmentManager() {
     }

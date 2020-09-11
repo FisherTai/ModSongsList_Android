@@ -13,6 +13,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
@@ -41,6 +43,14 @@ public class SongRepository {
     private ArrayList<Song> hunagchunList = new ArrayList<>();
     private ArrayList<Song> meihuaList = new ArrayList<>();
     private ArrayList<Song> ksongList = new ArrayList<>();
+    private ArrayList<Song> newSongList = new ArrayList<>();
+
+    //新歌的清單篩選
+    private final String  NEW_FILTER =
+            "835875,824897,824898,824896,845280,845278,845279,903856,903857,903859,903858," +
+                    "903855,903850,903854,903852,903851,903853,601897,601903,601906,601910," +
+                    "601913,601902,601909,601896,601899,601901,601904,601905,601907,601911," +
+                    "601912,601914,601900,601898,601796,601908";
 
     private static final String TAG = "SongRepository";
     private static SongRepository INSTANCE;
@@ -154,6 +164,10 @@ public class SongRepository {
         return ksongList;
     }
 
+    public ArrayList<Song> getNewSongList(){
+        return newSongList;
+    }
+
     /**
      * 從傳入的歌單中篩選指定語言的歌曲
      *
@@ -179,7 +193,6 @@ public class SongRepository {
      * 從Assets取出全部歌單設定進 songList
      */
     public void InitSonglist() {
-
         if (songList == null) {
             songListStr = MyUtil.getInstance().readAssetsJson(AppMain.getApp(), "song_list.json");
             Gson gson = new Gson();
@@ -211,6 +224,9 @@ public class SongRepository {
                         ksongList.add(song);
                         break;
                 }
+                if(isNewSong(song.getNumber())){
+                    newSongList.add(song);
+                }
             }
 
         }
@@ -221,5 +237,9 @@ public class SongRepository {
     public void setSelfList(List<Song> selfList) {
         this.selfList = selfList;
         Log.d(TAG, "setSelfList: complete");
+    }
+
+    private boolean isNewSong(String songNumber){
+        return NEW_FILTER.contains(songNumber);
     }
 }
