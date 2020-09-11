@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.modsongslist_android.BaseFragment;
+import com.example.modsongslist_android.MainActivity;
 import com.example.modsongslist_android.MyUtil;
 import com.example.modsongslist_android.R;
 import com.example.modsongslist_android.model.RepositoryCallBack;
@@ -159,6 +160,9 @@ public class SongListFragment extends BaseFragment {
     public void onResume() {
         //在onResume操作可確保傳入ToolBar的會是ViewPager當前頁面
         setToolBar();
+        if(songAdapter != null && MainActivity.currentType.equals("Type2")){
+            songAdapter.notifyDataSetChanged();
+        }
         super.onResume();
     }
 

@@ -20,6 +20,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
     private static final String TAG = "SongAdapter";
     private List<Song> injectionSongList;
     private int current = 0;
+    public boolean isChanged;
 
     public SongAdapter(List<Song> songList, int current) {
         this.injectionSongList = songList;
@@ -29,7 +30,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
     public void changeList(List<Song> songList, int current) {
         this.injectionSongList = songList;
         this.current = current;
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
     }
 
     @NonNull

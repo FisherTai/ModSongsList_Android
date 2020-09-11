@@ -1,5 +1,9 @@
 package com.example.modsongslist_android;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.view.View;
+
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -10,6 +14,7 @@ import com.example.modsongslist_android.songs_list.SongViewPagerFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -19,6 +24,9 @@ public class MainActivity extends BaseActivity {
     private BottomNavigationView mBottomNavigationView;
     private BaseFragment mFragment;
     private int currentSelected = 0;
+
+    public static String currentType;
+    final private int SETTING_STYLE = 111;
 
     @Override
     protected int getLayout() {
@@ -35,9 +43,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initLayoutView() {
+        currentType = getSharedPreferences("setting", MODE_PRIVATE).getString("style", "Type1");
         setBottomBar();
         initDarwerBar();
-        mFragment = MyUtil.isOrignal ? new SongListFragment(SongListFragment.CLASS_ALLSONG) : new SongViewPagerFragment();
+        mFragment = currentType.equals("Type1") ? new SongListFragment(SongListFragment.CLASS_ALLSONG) : new SongViewPagerFragment();
         AppFragmentManager.getInstance().addFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);
     }
 
@@ -49,7 +58,7 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 //全部
                 case R.id.item_allSong:
-                    mFragment = MyUtil.isOrignal ? new SongListFragment(SongListFragment.CLASS_ALLSONG) : new SongViewPagerFragment();
+                    mFragment = currentType.equals("Type1") ? new SongListFragment(SongListFragment.CLASS_ALLSONG) : new SongViewPagerFragment();
                     break;
                 //最爱
                 case R.id.item_favorite:
@@ -70,14 +79,13 @@ public class MainActivity extends BaseActivity {
 
     protected void initDarwerBar() {
 
-        if (MyUtil.isOrignal) {
-            mToolbar.setNavigationIcon(R.drawable.ic_menu);
-            mToolbar.setNavigationOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
-            setupDrawerContent(mNavigationView);
-        } else {
-            mDrawerLayout.removeView(mNavigationView);
-            mToolbar.setLogo(R.mipmap.logo);
+        if(currentType.equals("Type1")){
+            mNavigationView.inflateMenu(R.menu.drawer_menu);
         }
+        mToolbar.setNavigationIcon(R.drawable.ic_menu);
+        mToolbar.setNavigationOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
+        setupDrawerContent(mNavigationView);
+        mNavigationView.getMenu().add(11, SETTING_STYLE, 0, "樣式設定").setIcon(R.drawable.ic_setting_style);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -114,6 +122,26 @@ public class MainActivity extends BaseActivity {
                         case R.id.item_class7:
                             mFragment = new SongListFragment(SongListFragment.CLASS_KSONG);
                             break;
+                        case SETTING_STYLE:
+                            final String[] items = {"樣式1", "樣式2"};
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setTitle("樣式選擇")
+                                    .setItems(items, (dialogInterface, i) -> {
+                                        if (items[i].equals("樣式1")) {
+                                            setStyle("Type1");
+                                        } else {
+                                            setStyle("Type2");
+                                        }
+                                        Snackbar.make(findViewById(android.R.id.content), "點擊OK，重新啟動後樣式即會生效", Snackbar.LENGTH_SHORT).
+                                                 setAction("ok", view -> {
+                                                     Intent intent = getBaseContext().getPackageManager() .getLaunchIntentForPackage(getBaseContext().getPackageName());
+                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                     startActivity(intent);
+                                                     finish();
+                                                 }).show();
+                                    })
+                                    .setNegativeButton("取消", null)
+                                    .show();
                     }
                     AppFragmentManager.getInstance().replaceFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.fragment_conten);
                     // Close the navigation drawer when an item is selected.
@@ -122,6 +150,11 @@ public class MainActivity extends BaseActivity {
                     mDrawerLayout.closeDrawers();
                     return true;
                 });
+    }
+
+    private void setStyle(String type) {
+        getSharedPreferences("setting", MODE_PRIVATE).
+                edit().putString("style", type).apply();
     }
 
 
