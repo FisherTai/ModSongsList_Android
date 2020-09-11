@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.modsongslist_android.AppFragmentManager;
 import com.example.modsongslist_android.BaseFragment;
 import com.example.modsongslist_android.MainActivity;
 import com.example.modsongslist_android.MyUtil;
@@ -28,17 +29,6 @@ import java.util.Objects;
 public class SongListFragment extends BaseFragment {
     private static final String TAG = "SongClassFragment";
 
-    final public static int CLASS_ALLSONG = 11; //全部
-    final public static int CLASS_FAVORITE = 12; //最爱
-    final public static int CLASS_LIHO = 13; //麗厚廳
-    final public static int CLASS_SONJAIN = 14; //尚讚K歌王
-    final public static int CLASS_FLASH = 15; //閃亮大歌廳
-    final public static int CLASS_GOODSONG = 16; //好歌大家唱
-    final public static int CLASS_HUANGCHUN = 17;  //歡唱K歌館
-    final public static int CLASS_MEIHUA = 18; //美華卡拉吧
-    final public static int CLASS_KSONG = 19;//K歌大聯盟
-
-
     private RecyclerView rv;
     private SearchView sv;
 
@@ -50,8 +40,17 @@ public class SongListFragment extends BaseFragment {
      *
      * @param id
      */
-    public SongListFragment(int id) {
+    private SongListFragment(int id) {
         current = id;
+        AppFragmentManager.getInstance().setFragmentInContainer(id,this);
+    }
+
+    public static SongListFragment getInstance(int id){
+        if(AppFragmentManager.getInstance().getFragmentByID(id) == null){
+            new SongListFragment(id);
+        }
+
+        return AppFragmentManager.getInstance().getFragmentByID(id);
     }
 
 
@@ -81,13 +80,13 @@ public class SongListFragment extends BaseFragment {
     }
 
     private void setRecyclerView(int current) {
-        if (current == CLASS_ALLSONG) {
+        if (current == AppFragmentManager.CLASS_ALLSONG) {
             currentList = ALL_LIST;
             setSongAdapter(currentList, current);
             return;
         }
 
-        if (current == CLASS_FAVORITE) {
+        if (current == AppFragmentManager.CLASS_FAVORITE) {
             SongRepository.getINSTANCE().getSelfListFromDB(new RepositoryCallBack<List<Song>>() {
                 @Override
                 public void onSuccess(List<Song> result) {
@@ -106,43 +105,43 @@ public class SongListFragment extends BaseFragment {
             return;
         }
 
-        if (current == CLASS_LIHO) {
+        if (current == AppFragmentManager.CLASS_LIHO) {
             currentList = SongRepository.getINSTANCE().getLihoList();
             setSongAdapter(currentList, current);
             return;
         }
 
-        if (current == CLASS_SONJAIN) {
+        if (current == AppFragmentManager.CLASS_SONJAIN) {
             currentList = SongRepository.getINSTANCE().getSonjainList();
             setSongAdapter(currentList, current);
             return;
         }
 
-        if (current == CLASS_FLASH) {
+        if (current == AppFragmentManager.CLASS_FLASH) {
             currentList = SongRepository.getINSTANCE().getFlashList();
             setSongAdapter(currentList, current);
             return;
         }
 
-        if (current == CLASS_GOODSONG) {
+        if (current == AppFragmentManager.CLASS_GOODSONG) {
             currentList = SongRepository.getINSTANCE().getGoodSongList();
             setSongAdapter(currentList, current);
             return;
         }
 
-        if (current == CLASS_HUANGCHUN) {
+        if (current == AppFragmentManager.CLASS_HUANGCHUN) {
             currentList = SongRepository.getINSTANCE().getHunagchunList();
             setSongAdapter(currentList, current);
             return;
         }
 
-        if (current == CLASS_MEIHUA) {
+        if (current == AppFragmentManager.CLASS_MEIHUA) {
             currentList = SongRepository.getINSTANCE().getMeihuaList();
             setSongAdapter(currentList, current);
             return;
         }
 
-        if (current == CLASS_KSONG) {
+        if (current == AppFragmentManager.CLASS_KSONG) {
             currentList = SongRepository.getINSTANCE().getKsongList();
             setSongAdapter(currentList, current);
         }
@@ -244,31 +243,31 @@ public class SongListFragment extends BaseFragment {
     private String getTitle(int current) {
         String title = "";
         switch (current) {
-            case CLASS_ALLSONG:
+            case AppFragmentManager.CLASS_ALLSONG:
                 title = getResources().getString(R.string.allsong);
                 break;
-            case CLASS_FAVORITE:
+            case AppFragmentManager.CLASS_FAVORITE:
                 title = getResources().getString(R.string.favorite);
                 break;
-            case CLASS_LIHO:
+            case AppFragmentManager.CLASS_LIHO:
                 title = getResources().getString(R.string.liho);
                 break;
-            case CLASS_SONJAIN:
+            case AppFragmentManager.CLASS_SONJAIN:
                 title = getResources().getString(R.string.sonjain);
                 break;
-            case CLASS_FLASH:
+            case AppFragmentManager.CLASS_FLASH:
                 title = getResources().getString(R.string.flash);
                 break;
-            case CLASS_GOODSONG:
+            case AppFragmentManager.CLASS_GOODSONG:
                 title = getResources().getString(R.string.goodsong);
                 break;
-            case CLASS_HUANGCHUN:
+            case AppFragmentManager.CLASS_HUANGCHUN:
                 title = getResources().getString(R.string.hunagchun);
                 break;
-            case CLASS_MEIHUA:
+            case AppFragmentManager.CLASS_MEIHUA:
                 title = getResources().getString(R.string.meihua);
                 break;
-            case CLASS_KSONG:
+            case AppFragmentManager.CLASS_KSONG:
                 title = getResources().getString(R.string.ksong);
                 break;
         }
@@ -277,23 +276,23 @@ public class SongListFragment extends BaseFragment {
 
     private ArrayList<Song> getFilterList() {
         switch (current) {
-            case CLASS_ALLSONG:
+            case AppFragmentManager.CLASS_ALLSONG:
                 return ALL_LIST;
-            case CLASS_FAVORITE:
+            case AppFragmentManager.CLASS_FAVORITE:
                 return SelfList;
-            case CLASS_LIHO:
+            case AppFragmentManager.CLASS_LIHO:
                 return SongRepository.getINSTANCE().getLihoList();
-            case CLASS_SONJAIN:
+            case AppFragmentManager.CLASS_SONJAIN:
                 return SongRepository.getINSTANCE().getSonjainList();
-            case CLASS_FLASH:
+            case AppFragmentManager.CLASS_FLASH:
                 return SongRepository.getINSTANCE().getFlashList();
-            case CLASS_GOODSONG:
+            case AppFragmentManager.CLASS_GOODSONG:
                 return SongRepository.getINSTANCE().getGoodSongList();
-            case CLASS_HUANGCHUN:
+            case AppFragmentManager.CLASS_HUANGCHUN:
                 return SongRepository.getINSTANCE().getHunagchunList();
-            case CLASS_MEIHUA:
+            case AppFragmentManager.CLASS_MEIHUA:
                 return SongRepository.getINSTANCE().getMeihuaList();
-            case CLASS_KSONG:
+            case AppFragmentManager.CLASS_KSONG:
                 return SongRepository.getINSTANCE().getKsongList();
             default:
                 Toast.makeText(getContext(), "篩選全部的歌曲", Toast.LENGTH_SHORT).show();

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.modsongslist_android.AppFragmentManager;
 import com.example.modsongslist_android.R;
 import com.example.modsongslist_android.model.Song;
 import com.example.modsongslist_android.model.SongRepository;
@@ -20,7 +21,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
     private static final String TAG = "SongAdapter";
     private List<Song> injectionSongList;
     private int current = 0;
-    public boolean isChanged;
 
     public SongAdapter(List<Song> songList, int current) {
         this.injectionSongList = songList;
@@ -30,7 +30,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
     public void changeList(List<Song> songList, int current) {
         this.injectionSongList = songList;
         this.current = current;
-//        notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -66,7 +66,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
             }
             notifyItemChanged(position);
 
-            if (current == SongListFragment.CLASS_FAVORITE) {
+            if (current == AppFragmentManager.CLASS_FAVORITE) {
                 //這裡直接將物件傳入remove，省的處理position的邏輯
                 injectionSongList.remove(song);
                 Log.d(TAG, "remove self list position:" + position);
@@ -79,7 +79,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewholder
 
         if (!song.isFavorite()) {
             holder.addSong.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-        } else if (current == SongListFragment.CLASS_FAVORITE) {
+        } else if (current == AppFragmentManager.CLASS_FAVORITE) {
             holder.addSong.setImageResource(R.drawable.ic_close_black_24dp);
         } else {
             holder.addSong.setImageResource(R.drawable.ic_favorite_black_24dp);
